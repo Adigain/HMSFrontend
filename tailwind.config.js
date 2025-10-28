@@ -8,17 +8,17 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#14B8A6", // Teal
-          50: "#F0FDFA",
-          100: "#CCFBF1",
-          200: "#99F6E4",
-          300: "#5EEAD4",
-          400: "#2DD4BF",
-          500: "#14B8A6",
-          600: "#0D9488",
-          700: "#0F766E",
-          800: "#115E59",
-          900: "#134E4A",
+          DEFAULT: "#1E3A8A", // Navy Blue
+          50: "#E0E7FF",
+          100: "#C7D2FE",
+          200: "#A5B4FC",
+          300: "#818CF8",
+          400: "#6366F1",
+          500: "#4F46E5", // main navy blue
+          600: "#4338CA",
+          700: "#3730A3",
+          800: "#312E81",
+          900: "#1E3A8A",
         },
         secondary: {
           DEFAULT: "#8B5CF6", // Vibrant purple
@@ -80,18 +80,18 @@ export default {
         mono: ['JetBrains Mono', 'monospace'],
       },
       boxShadow: {
-        'glow-sm': '0 0 8px rgba(20, 184, 166, 0.3)',
-        'glow': '0 0 15px rgba(20, 184, 166, 0.4)',
-        'glow-lg': '0 0 25px rgba(20, 184, 166, 0.5)',
+        'glow-sm': '0 0 8px rgba(79, 70, 229, 0.3)',
+        'glow': '0 0 15px rgba(79, 70, 229, 0.4)',
+        'glow-lg': '0 0 25px rgba(79, 70, 229, 0.5)',
         'glow-purple': '0 0 15px rgba(139, 92, 246, 0.4)',
         'glow-orange': '0 0 15px rgba(249, 115, 22, 0.4)',
-        'inner-glow': 'inset 0 0 15px rgba(20, 184, 166, 0.3)',
+        'inner-glow': 'inset 0 0 15px rgba(79, 70, 229, 0.3)',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'noise': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
-        'pattern-dots': "url(\"data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2314b8a6' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='1'/%3E%3Ccircle cx='13' cy='13' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
+        'pattern-dots': "url(\"data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%234F46E5' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='1'/%3E%3Ccircle cx='13' cy='13' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
       },
       animation: {
         'pulse-slow': 'pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -104,8 +104,8 @@ export default {
           '50%': { transform: 'translateY(-10px)' },
         },
         glow: {
-          '0%': { boxShadow: '0 0 10px rgba(20, 184, 166, 0.3)' },
-          '100%': { boxShadow: '0 0 20px rgba(20, 184, 166, 0.6), 0 0 40px rgba(20, 184, 166, 0.3)' },
+          '0%': { boxShadow: '0 0 10px rgba(79, 70, 229, 0.3)' },
+          '100%': { boxShadow: '0 0 20px rgba(79, 70, 229, 0.6), 0 0 40px rgba(79, 70, 229, 0.3)' },
         },
       },
     },
@@ -117,4 +117,3 @@ export default {
     scrollbar: ['rounded']
   }
 }
-

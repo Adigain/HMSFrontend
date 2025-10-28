@@ -49,30 +49,30 @@ const services = [
 
 const testimonials = [
   {
-    quote: "The online consultation feature saved me so much time. I got medical advice from a specialist without leaving my home.",
-    author: "Sarah Johnson",
+    quote: "I was diagnosed with heart and lungs problem and quickly admitted to his hospital. Dr. Piyush took very good care and his concern for me was appreciable. I am in his debt for saving me. He was very helpful during the entire course of treatment. I thank him from the bottom of my heart..",
+    author: "Kavy Keshav",
     role: "Patient",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+    image: "https://i.postimg.cc/BZ1NYmbr/Whats-App-Image-2025-10-28-at-02-06-01.jpg"
   },
   {
-    quote: "The doctors are extremely knowledgeable and caring. They took the time to understand my concerns and provided personalized care.",
-    author: "Michael Chen",
+    quote: "The doctors are highly knowledgeable and genuinely caring. They took the time to listen to my concerns and offered thoughtful, personalized care.",
+    author: "Rysena kdiyo",
     role: "Patient",
     image: "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
   },
   {
-    quote: "Booking appointments was seamless, and the reminder system ensures I never miss a scheduled visit. Highly recommended!",
-    author: "Robert Wilson",
+    quote: "Booking appointments was effortless, and the reminder system made sure I never missed a visit. I’d definitely recommend it to others!",
+    author: "Ravi Shukla",
     role: "Patient",
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
   }
 ];
 
 const stats = [
-  { label: 'Patients Treated', value: 50000, suffix: '+' },
-  { label: 'Specialist Doctors', value: 200, suffix: '+' },
-  { label: 'Years of Service', value: 25, suffix: '+' },
-  { label: 'Satisfaction Rate', value: 98, suffix: '%' },
+  { label: 'Patients Treated', value: 200000, suffix: '+' },
+  { label: 'Specialist Doctors', value: 250, suffix: '+' },
+  { label: 'Years of Service', value: 15, suffix: '+' },
+  { label: 'Ambulance', value: 20, suffix: '+' },
 ];
 
 // Custom hook for counting animation
@@ -191,11 +191,10 @@ const Home = () => {
             <div className="lg:col-span-6 px-4 sm:px-6 lg:px-0 xl:pr-16">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
                 <span className="block">Your Health,</span>
-                <span className="block text-primary-600">Our Priority</span>
+                <span className="block text-primary-600">OurCommitment</span>
               </h1>
               <p className="mt-8 text-xl text-gray-500 max-w-3xl">
-                Experience healthcare that puts you first. Book appointments, consult with doctors,
-                and manage your health records all in one place.
+                Discover a smarter way to care for yourself — book appointments, consult trusted doctors, and manage all your health records effortlessly in one place.
               </p>
               <div className="mt-12 flex flex-col sm:flex-row gap-4">
                 <Link
@@ -208,7 +207,7 @@ const Home = () => {
                   to="/doctors"
                   className="inline-flex items-center justify-center px-8 py-4 border border-gray-300 text-lg font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
                 >
-                  Browse Doctors
+                  Find Doctors
                 </Link>
               </div>
               
@@ -216,8 +215,8 @@ const Home = () => {
                 {[
                   'Appointments 24/7',
                   'Expert Specialists',
-                  'Quality Care',
-                  'Affordable Prices'
+                  'Ambulance 24/7',
+                  'Best Hospitality'
                 ].map((item, index) => (
                   <div key={index} className="flex items-center">
                     <CheckCircleIcon className="h-6 w-6 text-primary-600 mr-3" />
@@ -230,7 +229,7 @@ const Home = () => {
             <div className="mt-12 lg:mt-0 lg:col-span-6 relative">
               <div className="relative rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src="https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1280&q=80"
+                  src="https://i.postimg.cc/zBc7XXFK/generated-image.jpg"
                   alt="Doctor with patient"
                   className="w-full h-full object-cover"
                 />

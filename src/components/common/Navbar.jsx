@@ -36,11 +36,11 @@ const Navbar = () => {
       <div className="bg-primary-600 text-white py-3">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center text-sm">
           <div className="flex items-center space-x-8">
-            <span className="flex items-center"><PhoneIcon className="h-4 w-4 mr-2" /> +1 (555) 123-4567</span>
-            <span className="flex items-center"><EnvelopeIcon className="h-4 w-4 mr-2" /> info@healthconnect.com</span>
+            <span className="flex items-center"><PhoneIcon className="h-4 w-4 mr-2" /> +91 9351966136</span>
+            <span className="flex items-center"><EnvelopeIcon className="h-4 w-4 mr-2" /> info@medilink.com</span>
           </div>
           <div className="flex items-center space-x-8 mt-2 sm:mt-0">
-            <span className="flex items-center"><PhoneIcon className="h-4 w-4 mr-2" /> Emergency: +1 (555) 911</span>
+            <span className="flex items-center"><PhoneIcon className="h-4 w-4 mr-2" /> Emergency: +91 9772700135</span>
             <span className="flex items-center"><ClockIcon className="h-4 w-4 mr-2" /> Mon-Fri 8AM-8PM</span>
           </div>
         </div>
@@ -54,20 +54,21 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-24">
             {/* Logo */}
             <div className="flex items-center">
-              <Link to="/" className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-primary-500 to-primary-600 text-white flex items-center justify-center shadow-md">
-                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M12 8V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M8 12H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <span className="text-2xl font-bold">
-                  <span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">Health</span>
-                  <span className="text-gray-800">Connect</span>
-                </span>
-              </Link>
-            </div>
+  <Link to="/" className="flex items-center space-x-3">
+    <img
+      src="https://i.postimg.cc/5thn5rvZ/Whats-App-Image-2025-10-28-at-02-51-51.jpg"
+      alt="MediLink Logo"
+      className="w-12 h-12 rounded-lg shadow-md object-cover"
+    />
+    <span className="text-2xl font-bold">
+      <span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">
+        Medi
+      </span>
+      <span className="text-gray-800">Link</span>
+    </span>
+  </Link>
+</div>
+
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">

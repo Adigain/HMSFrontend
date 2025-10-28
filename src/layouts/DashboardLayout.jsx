@@ -54,8 +54,8 @@ const DashboardLayout = ({ sidebarItems }) => {
                 </svg>
               </div>
               <h1 className="ml-2 text-xl font-bold">
-                <span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">Health</span>
-                <span className="text-gray-800">Connect</span>
+                <span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">Medi</span>
+                <span className="text-gray-800">Link</span>
               </h1>
             </div>
             <button 
@@ -122,8 +122,8 @@ const DashboardLayout = ({ sidebarItems }) => {
                 </svg>
               </div>
               <h1 className="ml-2 text-xl font-bold">
-                <span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">Health</span>
-                <span className="text-gray-800">Connect</span>
+                <span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">Medi</span>
+                <span className="text-gray-800">Link</span>
               </h1>
             </div>
           </div>

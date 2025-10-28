@@ -12,57 +12,57 @@ import {
 const values = [
   {
     name: 'Patient-Centered Care',
-    description: "We prioritize our patients' needs and preferences, ensuring respectful and responsive care.",
+    description: "At the heart of our services is you. We prioritize our patients’ needs and preferences, ensuring care that is respectful, responsive, and personalized.",
     icon: HeartIcon,
   },
   {
     name: 'Excellence',
-    description: 'We are committed to providing the highest quality healthcare services with the latest medical technology.',
+    description: "Our commitment is to provide the highest standard of healthcare, empowered by the latest medical technology.",
     icon: AcademicCapIcon,
   },
   {
     name: 'Compassion',
-    description: 'We treat every patient with kindness, empathy, and respect, recognizing their individual needs.',
+    description: "Every patient is treated with compassion, respect, and understanding, acknowledging their individual needs.",
     icon: HeartIcon,
   },
   {
     name: 'Innovation',
-    description: 'We continuously seek new and better ways to improve healthcare delivery and patient outcomes.',
+    description: "We continuously explore innovative approaches to enhance healthcare delivery and improve patient outcomes.",
     icon: GlobeAltIcon,
   },
 ];
 
 const stats = [
-  { label: 'Years of Service', value: 30, suffix: '+' },
-  { label: 'Medical Specialists', value: 200, suffix: '+' },
+  { label: 'Years of Service', value: 17, suffix: '+' },
+  { label: 'Medical Specialists', value: 250, suffix: '+' },
   { label: 'Patients Annually', value: 50000, suffix: '+' },
   { label: 'Specialties', value: 20, suffix: '+' },
 ];
 
 const team = [
   {
-    name: 'Dr. Michael Wilson',
+    name: 'Dr.Piyush Paakad',
     role: 'Chief Medical Officer',
-    image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-    bio: 'Dr. Wilson has over 20 years of experience in healthcare management and clinical practice.',
+    image: 'https://i.postimg.cc/ZRCsKjV2/piyushpaakad.jpg',
+    bio: 'Dr.Paakad has over 15 years of experience in healthcare management and clinical practice.',
   },
   {
-    name: 'Dr. Sarah Johnson',
+    name: 'Dr.Rajiv Tantu',
     role: 'Chief of Surgery',
-    image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-    bio: 'Dr. Johnson is a pioneering surgeon with numerous awards for her innovative surgical techniques.',
+    image: 'https://i.postimg.cc/6QPH1gXG/Whats-App-Image-2025-10-28-at-01-12-00.jpg',
+    bio: 'Dr. RAjiv is a pioneering surgeon with numerous awards for her innovative surgical techniques.',
   },
   {
-    name: 'Dr. Robert Chen',
+    name: 'Ashok Meena',
     role: 'Head of Research',
-    image: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80',
-    bio: 'Dr. Chen leads our research department, focusing on developing new treatments and therapies.',
+    image: 'https://i.postimg.cc/pT8t02KN/IMG20250223143031.jpg',
+    bio: 'Dr.Meena leads our research department, focusing on developing new treatments and therapies.',
   },
   {
-    name: 'Dr. Emily Rodriguez',
+    name: 'Dr.Mohit Yadav',
     role: 'Director of Patient Care',
-    image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-    bio: 'Dr. Rodriguez ensures that all patients receive the highest quality of care throughout their treatment.',
+    image: 'https://i.postimg.cc/sDn5cSyc/Screenshot-2025-05-07-052457.png',
+    bio: 'Dr.Mohit ensures that all patients receive the highest quality of care throughout their treatment.',
   },
 ];
 
@@ -180,7 +180,7 @@ const About = () => {
               About Our Hospital
             </h1>
             <p className="mt-8 text-xl text-white/90 max-w-3xl mx-auto">
-              We are committed to providing the highest quality healthcare with compassion and respect for all.
+              "We are committed to delivering the highest quality healthcare with compassion and respect for every individual."
             </p>
           </div>
         </div>
@@ -206,7 +206,7 @@ const About = () => {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 text-center mb-4">Excellence</h3>
               <p className="text-gray-600 text-center">
-                We are committed to achieving the highest standards in healthcare delivery, professional competence, and quality of service.
+                Our commitment is to provide the highest standard of healthcare, empowered by the latest medical technology.
               </p>
             </div>
             
@@ -217,7 +217,7 @@ const About = () => {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 text-center mb-4">Compassion</h3>
               <p className="text-gray-600 text-center">
-                We show care and empathy for all patients, understanding their experiences and respecting their dignity at all times.
+                Every patient is treated with compassion, respect, and understanding, acknowledging their individual needs.
               </p>
             </div>
             
@@ -269,15 +269,15 @@ const About = () => {
               <div className="h-72 overflow-hidden">
                 <img 
                   className="w-full h-full object-cover" 
-                  src="https://images.unsplash.com/photo-1622902046580-2b47f47f5471?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
-                  alt="Dr. Sarah Johnson" 
+                  src="https://i.postimg.cc/ZRCsKjV2/piyushpaakad.jpg"
+                  alt="Dr. Piyush Paakad" 
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Dr. Sarah Johnson</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Dr. Piyush Paakad</h3>
                 <p className="text-primary-600 font-medium mb-4">Chief Medical Officer</p>
                 <p className="text-gray-600">
-                  Dr. Johnson brings over 25 years of experience in healthcare management and clinical excellence.
+                  Dr. Paakad brings over 15 years of experience in healthcare management and clinical excellence.
                 </p>
               </div>
             </div>
@@ -287,15 +287,15 @@ const About = () => {
               <div className="h-72 overflow-hidden">
                 <img 
                   className="w-full h-full object-cover" 
-                  src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                  alt="Michael Roberts" 
+                  src="https://i.postimg.cc/pT8t02KN/IMG20250223143031.jpg"
+                  alt="Ashok Meena" 
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Michael Roberts</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Ashok Meena</h3>
                 <p className="text-primary-600 font-medium mb-4">Hospital Director</p>
                 <p className="text-gray-600">
-                  With a background in healthcare administration, Michael ensures our hospital delivers world-class care.
+                  With a background in healthcare administration, Meena ensures our hospital delivers world-class care.
                 </p>
               </div>
             </div>
@@ -305,15 +305,15 @@ const About = () => {
               <div className="h-72 overflow-hidden">
                 <img 
                   className="w-full h-full object-cover" 
-                  src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
-                  alt="Dr. Emily Chen" 
+                  src="https://i.postimg.cc/6QPH1gXG/Whats-App-Image-2025-10-28-at-01-12-00.jpg"
+                  alt="Dr. Rajiv Tantu" 
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Dr. Emily Chen</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Dr. Rajiv Tantu</h3>
                 <p className="text-primary-600 font-medium mb-4">Head of Research</p>
                 <p className="text-gray-600">
-                  Dr. Chen leads our research initiatives, driving innovation in medical treatments and patient care.
+                  Dr.Rajiv leads our research initiatives, driving innovation in medical treatments and patient care.
                 </p>
               </div>
             </div>
@@ -332,7 +332,7 @@ const About = () => {
               </h2>
               <div className="prose prose-lg text-gray-500">
                 <p className="text-xl">
-                  Founded in 1990, our hospital has grown from a small clinic to a comprehensive healthcare center serving thousands of patients annually.
+                  Founded in 2010, our hospital has grown from a small clinic to a comprehensive healthcare center serving thousands of patients annually.
                 </p>
                 <p className="mt-6 text-xl">
                   Throughout our journey, we have remained dedicated to our mission of providing exceptional care and improving the health of our community.

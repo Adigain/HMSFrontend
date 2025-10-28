@@ -175,7 +175,7 @@ const PatientRegistration = () => {
       
       // Show success with confetti
       triggerConfetti();
-      toast.success('Registration successful! Welcome to HealthConnect.');
+      toast.success('Registration successful! Welcome to MediLink.');
       
       // Redirect after a short delay to see the confetti
       setTimeout(() => {
@@ -280,7 +280,7 @@ const PatientRegistration = () => {
           transition={{ delay: 0.2 }}
           className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2"
         >
-          Create Your HealthConnect Account
+          Create Your MediLink Account
         </motion.h1>
         <motion.p 
           initial={{ y: 20, opacity: 0 }}

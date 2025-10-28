@@ -17,95 +17,128 @@ import {
 const doctorsData = [
   {
     id: 1,
-    name: 'Dr. Sarah Johnson',
+    name: 'Dr. Piyush Paakad ',
     specialty: 'Cardiology',
-    image: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80',
-    education: 'MD, Harvard Medical School',
+    image: 'https://i.postimg.cc/ZRCsKjV2/piyushpaakad.jpg',
+    education: 'MD, SMS Jaipur',
     experience: '15 years',
     bio: 'Specialized in interventional cardiology and heart failure management.',
-    languages: ['English', 'Spanish'],
+    languages: ['English', 'Hindi'],
     availability: 'Mon-Fri, 9am-5pm',
     rating: 4.9,
     reviews: 128,
-    consultationFee: '$200',
+    consultationFee: '$75',
     isAvailable: true
   },
   {
     id: 2,
-    name: 'Dr. Michael Chen',
+    name: 'Dr. Ashok Meena ',
     specialty: 'Neurology',
-    image: 'https://images.unsplash.com/photo-1622902046580-2b47f47f5471?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
-    education: 'MD, Johns Hopkins University',
-    experience: '12 years',
+    image: 'https://i.postimg.cc/pT8t02KN/IMG20250223143031.jpg',
+    education: 'MD, AIIMS Jodhpur',
+    experience: '7 years',
     bio: 'Expert in treating neurological disorders and movement disorders.',
-    languages: ['English', 'Mandarin'],
+    languages: ['English', 'Hindi'],
     availability: 'Mon-Wed, Fri, 10am-6pm',
     rating: 4.8,
     reviews: 95,
-    consultationFee: '$180',
+    consultationFee: '$100',
     isAvailable: true
   },
   {
     id: 3,
-    name: 'Dr. Emily Rodriguez',
+    name: 'Dr.Rajiv Tantu',
     specialty: 'Pediatrics',
-    image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
-    education: 'MD, Stanford University',
+    image: 'https://i.postimg.cc/6QPH1gXG/Whats-App-Image-2025-10-28-at-01-12-00.jpg',
+    education: 'MD, IMS BHU',
     experience: '8 years',
     bio: 'Specialized in pediatric care and child development.',
-    languages: ['English', 'Spanish'],
+    languages: ['English', 'MArathi'],
     availability: 'Tue-Thu, Sat, 8am-4pm',
     rating: 4.9,
     reviews: 156,
-    consultationFee: '$150',
+    consultationFee: '$70',
     isAvailable: true
   },
   {
     id: 4,
-    name: 'Dr. David Wilson',
+    name: 'Dr. Aditya Paraya',
     specialty: 'Orthopedics',
-    image: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-    education: 'MD, Mayo Clinic',
-    experience: '20 years',
+    image: 'https://i.postimg.cc/pTNfjHvs/Whats-App-Image-2025-10-28-at-01-12-00-1.jpg',
+    education: 'MD, RUHS Jaipur',
+    experience: '7 years',
     bio: 'Expert in joint replacement and sports medicine.',
     languages: ['English'],
     availability: 'Mon-Fri, 8am-5pm',
     rating: 4.7,
     reviews: 203,
-    consultationFee: '$220',
+    consultationFee: '$100',
     isAvailable: true
   },
   {
     id: 5,
-    name: 'Dr. Lisa Kim',
+    name: 'Dr. Mohit Yadav',
     specialty: 'Dermatology',
-    image: 'https://images.unsplash.com/photo-1591604021695-0c69b7c05981?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-    education: 'MD, Yale University',
+    image: 'https://i.postimg.cc/sDn5cSyc/Screenshot-2025-05-07-052457.png',
+    education: 'MD,AIIMS Jhajjar',
     experience: '10 years',
     bio: 'Specialized in cosmetic and medical dermatology.',
     languages: ['English', 'Korean'],
     availability: 'Mon, Wed, Fri, 9am-5pm',
     rating: 4.8,
     reviews: 178,
-    consultationFee: '$190',
+    consultationFee: '$60',
     isAvailable: true
   },
   {
     id: 6,
-    name: 'Dr. Robert Taylor',
+    name: 'Dr.Ashok Mandawat',
     specialty: 'Internal Medicine',
-    image: 'https://images.unsplash.com/photo-1612531386530-97286d97c2d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-    education: 'MD, University of California',
+    image: 'https://i.postimg.cc/mZ1Qwhhx/Whats-App-Image-2025-10-28-at-01-34-31.jpg',
+    education: 'MD, AIIMS Delhi',
     experience: '18 years',
     bio: 'Expert in general medicine and preventive care.',
-    languages: ['English', 'French'],
+    languages: ['English', 'Hindi'],
     availability: 'Tue-Thu, Sat, 10am-6pm',
     rating: 4.9,
     reviews: 245,
-    consultationFee: '$170',
+    consultationFee: '$70',
+    isAvailable: true
+  },
+    {
+    id: 7,
+    name: 'Dr.Pankaj Meena',
+    specialty: 'Gynecologist',
+    image: 'https://i.postimg.cc/RCtHt8pP/Whats-App-Image-2025-10-28-at-01-34-32.jpg',
+    education: 'MD, GMC Alwar',
+    experience: '7 years',
+    bio: 'Expert in Normal delivery.',
+    languages: ['English', 'Hindi'],
+    availability: 'Tue-Thu, Sat, 10am-6pm',
+    rating: 4.7,
+    reviews: 230,
+    consultationFee: '$80',
+    isAvailable: true
+  },
+  {
+    id: 8,
+    name: 'Dr.Kavy Keshav',
+    specialty: 'Urologist',
+    image: 'https://i.postimg.cc/BZ1NYmbr/Whats-App-Image-2025-10-28-at-02-06-01.jpg',
+    education: 'MD, SNMC Agra',
+    experience: '9 years',
+    bio: 'Expert in Urinary Tract system of men and women',
+    languages: ['English', 'Hindi'],
+    availability: 'Tue-Thu, Sat, 10am-6pm',
+    rating: 4.8,
+    reviews: 220,
+    consultationFee: '$85',
     isAvailable: true
   }
+
 ];
+
+
 
 // List of all specialties for display
 const allSpecialties = ['All', ...new Set(doctorsData.map(doctor => doctor.specialty))];
@@ -309,7 +342,7 @@ const Doctors = () => {
                   <div className="mt-6 space-y-4">
                     <div className="flex items-center text-gray-600">
                       <PhoneIcon className="h-5 w-5 mr-3 text-primary" />
-                      <span>+1 (555) 123-4567</span>
+                      <span>+91 9351966136</span>
                     </div>
                     <div className="flex items-center text-gray-600">
                       <EnvelopeIcon className="h-5 w-5 mr-3 text-primary" />

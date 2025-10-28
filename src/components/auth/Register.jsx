@@ -128,7 +128,7 @@ const Register = () => {
           <div className="absolute -top-1 -right-1 h-3 w-3 bg-accent-DEFAULT rounded-full"></div>
         </div>
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Create Account</h1>
-        <p className="text-gray-600 mt-2">Join HealthConnect in a few easy steps</p>
+        <p className="text-gray-600 mt-2">Join MediLink in a few easy steps</p>
       </div>
       
       {/* Main container */}

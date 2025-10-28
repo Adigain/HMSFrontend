@@ -122,15 +122,16 @@ const Login = () => {
         </div>
         
         <div className="relative z-10 flex flex-col justify-center items-center w-full px-12 py-20">
-          <div className="w-20 h-20 rounded-2xl bg-white flex items-center justify-center shadow-2xl mb-8">
+          {/* <div className="w-20 h-20 rounded-2xl bg-white flex items-center justify-center shadow-2xl mb-8">
             <svg className="w-10 h-10 text-primary-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M12 8V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M8 12H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          </div>
+          </div> */}
+          <div></div>
           
-          <h2 className="text-4xl font-bold text-white mb-6">HealthConnect</h2>
+          <h2 className="text-4xl font-bold text-white mb-6">MediLink</h2>
           <p className="text-white/90 text-lg text-center max-w-md mb-12">
             Your comprehensive healthcare platform for managing appointments, medical records, and personalized care.
           </p>

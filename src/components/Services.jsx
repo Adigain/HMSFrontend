@@ -144,11 +144,11 @@ const Services = () => {
                 Insurance Coverage
               </h2>
               <p className="mt-4 text-lg text-gray-500">
-                We work with a variety of insurance providers to ensure that you can access the care you need. Our administrative team can help verify your coverage and explain any out-of-pocket costs.
+                We partner with a range of insurance providers to make quality care accessible to everyone. Our administrative team assists in verifying coverage and explaining any out-of-pocket expenses.
               </p>
               <div className="mt-8">
                 <ul className="space-y-4">
-                  {['Blue Cross Blue Shield', 'Aetna', 'UnitedHealthcare', 'Cigna', 'Medicare', 'Medicaid'].map((insurance) => (
+                  {['Apollo Health', 'Fortis Healthcare', 'Max Bupa', 'Star Health Insurance', 'Care Health', 'ICICI Lombard'].map((insurance) => (
                     <li key={insurance} className="flex items-center">
                       <svg className="h-5 w-5 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -172,7 +172,7 @@ const Services = () => {
                     </svg>
                     <div>
                       <p className="font-medium text-gray-900">Phone Support</p>
-                      <p className="text-gray-500">+1 (555) 123-4567</p>
+                      <p className="text-gray-500">+91 9351966136</p>
                     </div>
                   </div>
                   <div className="flex items-start">
@@ -181,7 +181,7 @@ const Services = () => {
                     </svg>
                     <div>
                       <p className="font-medium text-gray-900">Email</p>
-                      <p className="text-gray-500">insurance@hospitalms.com</p>
+                      <p className="text-gray-500">insurance@medilink.com</p>
                     </div>
                   </div>
                 </div>
