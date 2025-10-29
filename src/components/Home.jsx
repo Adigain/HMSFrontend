@@ -21,8 +21,8 @@ const services = [
     icon: UserIcon,
   },
   {
-    name: 'Specialist Appointments',
-    description: 'Connect with specialists in cardiology, dermatology, orthopedics, and more.',
+    name: 'Specialist Appointment',
+    description: 'Connect with experts for specialised care.',
     icon: CalendarIcon,
   },
   {
@@ -42,26 +42,26 @@ const services = [
   },
   {
     name: 'Specialized Treatments',
-    description: 'Advanced medical treatments using cutting-edge technology.',
+    description: 'Advanced medical treatments using cutting-edge innovative technology.',
     icon: BuildingOffice2Icon,
   },
 ];
 
 const testimonials = [
   {
-    quote: "I was diagnosed with heart and lungs problem and quickly admitted to his hospital. Dr. Piyush took very good care and his concern for me was appreciable. I am in his debt for saving me. He was very helpful during the entire course of treatment. I thank him from the bottom of my heart..",
+    quote: "I was diagnosed with heart problem and was quickly admitted to this hospital. The doctor took very good care and his concern for me was appreciable. He was very helpful during the entire course of treatment.",
     author: "Kavy Keshav",
     role: "Patient",
     image: "https://i.postimg.cc/BZ1NYmbr/Whats-App-Image-2025-10-28-at-02-06-01.jpg"
   },
   {
-    quote: "The doctors are highly knowledgeable and genuinely caring. They took the time to listen to my concerns and offered thoughtful, personalized care.",
-    author: "Rysena kdiyo",
+    quote: "The doctors are highly knowledgeable and genuinely caring. They took time to listen to my concerns and offered thoughtful, personalized care.",
+    author: "Marriene Santos",
     role: "Patient",
     image: "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
   },
   {
-    quote: "Booking appointments was effortless, and the reminder system made sure I never missed a visit. I’d definitely recommend it to others!",
+    quote: "Booking appointments was effortless and the reminder system made sure I never missed a visit. I’d definitely recommend it to others!",
     author: "Ravi Shukla",
     role: "Patient",
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
@@ -69,10 +69,10 @@ const testimonials = [
 ];
 
 const stats = [
-  { label: 'Patients Treated', value: 200000, suffix: '+' },
-  { label: 'Specialist Doctors', value: 250, suffix: '+' },
-  { label: 'Years of Service', value: 15, suffix: '+' },
-  { label: 'Ambulance', value: 20, suffix: '+' },
+  { label: 'Patients Treated', value: 40000, suffix: '+' },
+  { label: 'Specialist Doctors', value: 50, suffix: '+' },
+  { label: 'Years of Service', value: 10, suffix: '+' },
+  { label: 'Ambulance', value: 40, suffix: '+' },
 ];
 
 // Custom hook for counting animation
@@ -81,8 +81,7 @@ const useCountUp = (end, start = 0, duration = 2000) => {
   const countRef = useRef(start);
   const timeRef = useRef(null);
   
-  useEffect(() => {
-    // Reset counter when the end value changes
+  useEffect(() => {    
     countRef.current = start;
     setCount(start);
     
@@ -94,8 +93,7 @@ const useCountUp = (end, start = 0, duration = 2000) => {
       if (!startTime) startTime = timestamp;
       const progress = timestamp - startTime;
       
-      if (progress < duration) {
-        // Calculate the new count value based on progress
+      if (progress < duration) {        
         currentCount = Math.min(
           start + Math.floor((end - start) * (progress / duration)),
           end
@@ -108,7 +106,6 @@ const useCountUp = (end, start = 0, duration = 2000) => {
         
         timeRef.current = requestAnimationFrame(animate);
       } else {
-        // Ensure we reach exactly the end value
         setCount(end);
       }
     };
@@ -191,10 +188,10 @@ const Home = () => {
             <div className="lg:col-span-6 px-4 sm:px-6 lg:px-0 xl:pr-16">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
                 <span className="block">Your Health,</span>
-                <span className="block text-primary-600">OurCommitment</span>
+                <span className="block text-primary-600">Our Priority</span>
               </h1>
               <p className="mt-8 text-xl text-gray-500 max-w-3xl">
-                Discover a smarter way to care for yourself — book appointments, consult trusted doctors, and manage all your health records effortlessly in one place.
+                Discover a smarter approach to healthcare — book appointments, consult doctors and manage all your health records in one place.
               </p>
               <div className="mt-12 flex flex-col sm:flex-row gap-4">
                 <Link
@@ -216,7 +213,7 @@ const Home = () => {
                   'Appointments 24/7',
                   'Expert Specialists',
                   'Ambulance 24/7',
-                  'Best Hospitality'
+                  'Emergency Service'
                 ].map((item, index) => (
                   <div key={index} className="flex items-center">
                     <CheckCircleIcon className="h-6 w-6 text-primary-600 mr-3" />
@@ -263,7 +260,7 @@ const Home = () => {
               Our Healthcare Services
             </h2>
             <p className="mt-4 text-xl text-gray-500 max-w-3xl mx-auto">
-              We offer a wide range of medical services to cater to your healthcare needs.
+              We offer a wide range of medical services to serve your healthcare needs.
             </p>
           </div>
           
@@ -330,7 +327,7 @@ const Home = () => {
                 <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center text-white text-2xl font-bold absolute -top-8 left-1/2 transform -translate-x-1/2 shadow-lg">3</div>
                 <div className="mt-8">
                   <h3 className="text-xl font-bold text-gray-900 mb-4">Get Treatment</h3>
-                  <p className="text-gray-500">Visit for your appointment or join a video consultation for remote care.</p>
+                  <p className="text-gray-500">Visit for your appointment or join a video consultation for remote treatment.</p>
                 </div>
               </div>
             </div>
@@ -346,7 +343,7 @@ const Home = () => {
               What Our Patients Say
             </h2>
             <p className="mt-4 text-xl text-gray-500 max-w-3xl mx-auto">
-              Read testimonials from patients who have experienced our care
+              Read testimonials from patients who have experienced our service
             </p>
           </div>
           

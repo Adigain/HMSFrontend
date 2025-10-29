@@ -10,35 +10,36 @@ import {
 const services = [
   {
     name: 'Emergency Care',
-    description: '24/7 emergency medical care for critical conditions with immediate attention from our specialists.',
+    description: 'Round-the-clock emergency services providing immediate medical attention for critical cases.',
     icon: HeartIcon,
   },
   {
     name: 'Laboratory Services',
-    description: 'Comprehensive lab testing with state-of-the-art equipment for accurate and timely results.',
+    description: 'Advanced laboratory diagnostics using modern equipment to deliver accurate and timely results.',
     icon: BeakerIcon,
   },
   {
     name: 'Medical Check-ups',
-    description: 'Routine health examinations to prevent illness and promote overall wellness.',
+    description: 'Regular health screenings and preventive examinations to support long-term wellness.',
     icon: ClipboardDocumentListIcon,
   },
   {
     name: 'Specialized Consultations',
-    description: 'Expert consultations with specialists in various medical fields to address specific health concerns.',
+    description: 'Access to medical specialists offering expert guidance and tailored treatment plans.',
     icon: UserGroupIcon,
   },
   {
     name: 'Health Education',
-    description: 'Educational programs and resources to help patients understand and manage their health conditions.',
+    description: 'Programs and resources designed to help patients better understand and manage their health.',
     icon: AcademicCapIcon,
   },
   {
     name: 'Online Appointments',
-    description: 'Convenient online scheduling system for booking appointments with healthcare providers.',
+    description: 'Easy and convenient online platform for scheduling visits with healthcare professionals.',
     icon: ClockIcon,
   },
 ];
+
 
 const Services = () => {
   return (
@@ -51,7 +52,7 @@ const Services = () => {
               Our Services
             </h1>
             <p className="mt-8 text-xl text-white/90 max-w-3xl mx-auto">
-              Comprehensive healthcare services designed to meet all your medical needs with excellence and compassion.
+            A full range of medical services offered to address all your health needs with quality care and empathy.
             </p>
           </div>
         </div>
@@ -66,7 +67,7 @@ const Services = () => {
               Comprehensive Healthcare Services
             </h2>
             <p className="mt-6 text-xl text-gray-500 max-w-3xl mx-auto">
-              Our hospital provides a range of services to ensure comprehensive care for all patients.
+            Our hospital offers various services to deliver complete and extensive care to every patient.
             </p>
           </div>
           
@@ -96,7 +97,7 @@ const Services = () => {
               How It Works
             </h2>
             <p className="mt-4 text-xl text-gray-500 max-w-2xl mx-auto">
-              Getting the care you need is simple and straightforward with our streamlined process.
+            Receiving the care you require is easy and simple thanks to our smooth and efficient process.
             </p>
           </div>
           
@@ -111,7 +112,7 @@ const Services = () => {
                   1
                 </div>
                 <h3 className="font-bold text-xl mt-6 mb-4">Book Appointment</h3>
-                <p className="text-gray-500">Schedule your appointment online or by calling our reception desk.</p>
+                <p className="text-gray-500">Schedule your appointment online or by calling our 24/7 available contact number.</p>
               </div>
               
               <div className="bg-white p-8 rounded-2xl shadow-lg text-center relative">
@@ -127,7 +128,7 @@ const Services = () => {
                   3
                 </div>
                 <h3 className="font-bold text-xl mt-6 mb-4">Treatment & Follow-up</h3>
-                <p className="text-gray-500">Receive personalized care and schedule follow-up appointments as needed.</p>
+                <p className="text-gray-500">Receive personalized care and schedule follow-up appointments as required.</p>
               </div>
             </div>
           </div>
@@ -144,7 +145,7 @@ const Services = () => {
                 Insurance Coverage
               </h2>
               <p className="mt-4 text-lg text-gray-500">
-                We partner with a range of insurance providers to make quality care accessible to everyone. Our administrative team assists in verifying coverage and explaining any out-of-pocket expenses.
+              We work with multiple insurance companies to ensure that everyone can access high-quality healthcare. Our administrative staff helps confirm your coverage and clarify any costs you may need to pay.
               </p>
               <div className="mt-8">
                 <ul className="space-y-4">
