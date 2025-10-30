@@ -247,6 +247,7 @@ const Login = () => {
                   <option value="patient">Patient</option>
                   <option value="doctor">Doctor</option>
                   <option value="admin">Administrator</option>
+                  <option value="labtech">Lab Technician</option>
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                   <ChevronDownIcon className="h-5 w-5 text-gray-400" />

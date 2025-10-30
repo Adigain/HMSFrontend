@@ -140,11 +140,7 @@ export const staffService = {
     const mapping = {
       ADMIN: '/admins',
       DOCTOR: '/doctors',
-      ASSISTANT: '/assistants',
-      NURSING: '/nurses',
-      LAB: '/labs',
-      MAINTENANCE: '/maintenance',
-      RECEPTION: '/reception'
+      LABTECH: '/labtech',      
     };
 
     const endpoint = mapping[designation] || '/staff';

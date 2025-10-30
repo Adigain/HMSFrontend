@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { EnvelopeIcon, EyeIcon, EyeSlashIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import { staffService } from '../services/api';
-import { DESIGNATION_OPTIONS } from '../utils/enums';
+import { DESIGNATION_OPTIONS, SPECIALIZATION_OPTIONS } from '../utils/enums';
 
 const StaffRegistration = () => {
   const navigate = useNavigate();
@@ -22,7 +22,8 @@ const StaffRegistration = () => {
     address: '',
     password: '',
     confirmPassword: '',
-    designation: ''
+    designation: '',
+    specialization: ''
   });
 
   const [errors, setErrors] = useState({});
@@ -42,6 +43,10 @@ const StaffRegistration = () => {
     if (!/^[0-9]{10}$/.test(form.mobileNo)) newErrors.mobileNo = 'Mobile must be 10 digits';
     if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) newErrors.email = 'Valid email required';
     if (!form.designation) newErrors.designation = 'Designation required';
+    // If designation is DOCTOR, require specialization
+    if (form.designation === 'DOCTOR' && !form.specialization) {
+      newErrors.specialization = 'Specialization required for doctors';
+    }
     if (!form.password || form.password.length < 6) newErrors.password = 'Password must be at least 6 chars';
     if (form.password !== form.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
     setErrors(newErrors);
@@ -55,6 +60,8 @@ const StaffRegistration = () => {
     try {
       const payload = { ...form };
       delete payload.confirmPassword;
+      // Convert specialization to number (or set to null if not provided)
+      payload.specialization = payload.specialization ? Number(payload.specialization) : null;
       await staffService.createStaff(payload);
       toast.success('Staff registered successfully');
       navigate('/login');
@@ -193,6 +200,25 @@ const StaffRegistration = () => {
             </select>
             {errors.designation && <p className="text-red-500 text-sm mt-1">{errors.designation}</p>}
           </div>
+
+          {/* Visible only when designation === 'DOCTOR' */}
+          {form.designation === 'DOCTOR' && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Specialization</label>
+              <select
+                name="specialization"
+                value={form.specialization}
+                onChange={handleChange}
+                className={`block w-full px-4 py-3 border rounded-lg ${errors.specialization ? 'border-red-500' : 'border-gray-300'}`}
+              >
+                <option value="">Select specialization</option>
+                {SPECIALIZATION_OPTIONS.map(opt => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
+              {errors.specialization && <p className="text-red-500 text-sm mt-1">{errors.specialization}</p>}
+            </div>
+          )}
 
           <div>
             <button
