@@ -57,11 +57,55 @@ const StaffRegistration = () => {
     e.preventDefault();
     if (!validate()) return;
     setLoading(true);
-    try {
-      const payload = { ...form };
-      delete payload.confirmPassword;
-      // Convert specialization to number (or set to null if not provided)
-      payload.specialization = payload.specialization ? Number(payload.specialization) : null;
+    try {      
+      let payload;
+
+      const designationUpper = (form.designation || '').toUpperCase();
+
+      if (designationUpper === 'DOCTOR') {
+        
+        payload = {
+          
+          Dr_name: form.name,
+          Mobile_no: form.mobileNo,
+          Email_id: form.email,
+          Gender: form.gender,
+          Age: form.age ? Number(form.age) : null,
+          Experience: form.experience ? Number(form.experience) : null, 
+          Password: form.password,
+          Sp_Id: form.specialization ? Number(form.specialization) : null,
+          picture: form.picture || null
+        };
+      } else if (designationUpper === 'LABTECH') {
+        
+        payload = {
+        
+          Lb_name: form.name,
+          Mobile_no: form.mobileNo,
+          Email_id: form.email,
+          Gender: form.gender,
+          Age: form.age ? Number(form.age) : null,
+          Experience: form.experience ? Number(form.experience) : null, 
+          Password: form.password
+        };
+      } else if (designationUpper === 'ADMIN') {
+        
+        payload = {
+          
+          Name: form.name,
+          Email: form.email,
+          Password: form.password
+        };
+      } else {
+        
+        payload = { ...form };
+        delete payload.confirmPassword;
+      }
+      console.log('Registration payload:', payload);
+
+      
+      if (payload.confirmPassword) delete payload.confirmPassword;
+
       await staffService.createStaff(payload);
       toast.success('Staff registered successfully');
       navigate('/login');

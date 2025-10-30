@@ -136,7 +136,6 @@ export const staffService = {
   createStaff: (data) => {
     const designation = (data.designation || '').toUpperCase();
 
-    // Map designations to endpoints (no /api/ prefix, baseURL already includes /api)
     const mapping = {
       ADMIN: '/admins',
       DOCTOR: '/doctors',
