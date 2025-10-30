@@ -105,6 +105,9 @@ export const authService = {
   validateToken: () => api.get('/auth/validate')
 };
 
+// Staff auth
+// (no staff auth configured here)
+
 // Patient services
 export const patientService = {
   getAllPatients: () => api.get('/patients'),
@@ -127,6 +130,30 @@ export const patientService = {
   getDoctorPatients: (doctorId) => api.get(`/patients/doctor/${doctorId}`),
   changePassword: (patientId, passwordData) => api.put(`/patients/${patientId}/change-password`, passwordData),
 };
+
+// Staff services (minimal)
+export const staffService = {
+  createStaff: (data) => {
+    const designation = (data.designation || '').toUpperCase();
+
+    // Map designations to endpoints (no /api/ prefix, baseURL already includes /api)
+    const mapping = {
+      ADMIN: '/admins',
+      DOCTOR: '/doctors',
+      ASSISTANT: '/assistants',
+      NURSING: '/nurses',
+      LAB: '/labs',
+      MAINTENANCE: '/maintenance',
+      RECEPTION: '/reception'
+    };
+
+    const endpoint = mapping[designation] || '/staff';
+    return api.post(endpoint, data);
+  }
+};
+
+// Staff services
+// (no staffService defined)
 
 // Doctor services
 export const doctorService = {

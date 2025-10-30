@@ -27,6 +27,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import EmergencyAccess from './components/EmergencyAccess';
 import DirectAccess from './components/DirectAccess';
 import ForceLogin from './components/auth/ForceLogin';
+import RegisterChoice from './components/RegisterChoice';
 
 // Import our new patient components
 import PatientDashboard from './components/patient/Dashboard';
@@ -36,6 +37,7 @@ import Prescriptions from './components/patient/Prescriptions';
 import UpdateProfile from './components/patient/UpdateProfile';
 import ChangePassword from './components/patient/ChangePassword';
 import PatientRegistration from './components/PatientRegistration';
+import StaffRegistration from './components/StaffRegistration';
 
 // Import doctor components
 import DoctorDashboard from './components/doctor/Dashboard';
@@ -107,7 +109,9 @@ function AppRoutes() {
       </Route>
 
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<PatientRegistration />} />
+      <Route path="/register" element={<RegisterChoice />} />
+      <Route path="/register/patient" element={<PatientRegistration />} />
+      <Route path="/register/staff" element={<StaffRegistration />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/forcelogin" element={<ForceLogin />} />
       <Route path="/redirect" element={<Redirect />} />
