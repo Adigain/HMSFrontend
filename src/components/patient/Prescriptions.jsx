@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { prescriptionService, patientService } from '../../services/api';
 
-// Mock prescription data as a fallback
+
 const MOCK_PRESCRIPTIONS = [
   {
     id: 1,

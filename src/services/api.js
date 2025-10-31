@@ -132,20 +132,26 @@ export const patientService = {
 };
 
 // Staff services (minimal)
+// export const staffService = {
+//   createStaff: (data) => {
+//     const designation = (data.designation || '').toUpperCase();
+
+//     // const mapping = {
+//     //   ADMIN: '/admins',
+//     //   DOCTOR: '/doctors',
+//     //   LABTECH: '/labtech'
+//     // };
+
+//     const endpoint = '/doctors';
+//     return api.post(endpoint.trim(), data); 
+//   }
+// };
 export const staffService = {
-  createStaff: (data) => {
-    const designation = (data.designation || '').toUpperCase();
-
-    const mapping = {
-      ADMIN: '/admins',
-      DOCTOR: '/doctors',
-      LABTECH: '/labtech',      
-    };
-
-    const endpoint = mapping[designation] || '/staff';
-    return api.post(endpoint, data);
-  }
+  createDoctor: async (data) => {
+    return await api.post(`/doctors`, data);
+  },
 };
+
 
 // Staff services
 // (no staffService defined)

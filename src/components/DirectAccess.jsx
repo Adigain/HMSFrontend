@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
  */
 const DirectAccess = () => {
   useEffect(() => {
-    // First, log current state
+    
     console.log("⚡ DirectAccess - Setting auth data...");
     
     // Set dummy patient data

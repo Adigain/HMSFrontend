@@ -41,15 +41,15 @@ const BookAppointment = () => {
   const [loadingSpecialties, setLoadingSpecialties] = useState(true);
   const [confirmPolicy, setConfirmPolicy] = useState(false);
   
-  // Data states
+
   const [specialties, setSpecialties] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   
-  // Add state to track the actual patient ID
+
   const [actualPatientId, setActualPatientId] = useState(patientId);
   
-  // Load patient data if patientId is available
+
   useEffect(() => {
     console.log("useEffect for patientId triggered with id:", patientId);
     

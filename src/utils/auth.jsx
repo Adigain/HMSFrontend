@@ -24,16 +24,6 @@ export const AuthProvider = ({ children }) => {
           console.log("BYPASSING TOKEN VALIDATION - Setting user without validation");
           setUser(JSON.parse(userStr));
           
-          /* DISABLED VALIDATION
-          // Validate token with backend
-          const valid = await authService.validateToken();
-          if (valid.data) {
-            setUser(JSON.parse(userStr));
-          } else {
-            // If token is invalid, log out
-            handleLogout();
-          }
-          */
         } catch (error) {
           console.error('Token validation error:', error);
           // DISABLED LOGOUT - just set the user anyway
@@ -106,7 +96,7 @@ export const isAuthenticated = () => {
       return false;
     }
     
-    // Try to parse the user data to make sure it's valid
+
     try {
       const user = JSON.parse(userStr);
       if (!user || !user.role) {
