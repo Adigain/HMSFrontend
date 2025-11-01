@@ -36,14 +36,16 @@ export const AuthProvider = ({ children }) => {
         }
       } else if (!userStr) {
         // If no user in storage, create a default one
-        console.log("No user found in storage, creating default patient user");
+        // If no user data is found, create a default LABTECH user 
+        // to enable normal access to the LabTech dashboard during development.
+        console.log("No user found in storage, creating default LABTECH user for development");
         const defaultUser = {
-          id: 123,
-          name: "Default Patient",
-          email: "patient@example.com",
-          role: "PATIENT"
+          id: 456, // Use a unique ID for the LabTech mock
+          name: "Default LabTech",
+          email: "labtech@example.com",
+          role: "LABTECH" // <--- DEFAULT ROLE IS LABTECH
         };
-        localStorage.setItem('token', 'default-token-' + Date.now());
+        localStorage.setItem('token', 'default-labtech-token-' + Date.now());
         localStorage.setItem('user', JSON.stringify(defaultUser));
         setUser(defaultUser);
       }
@@ -142,4 +144,5 @@ export const getUser = () => {
     console.error('Error parsing user data:', error);
     return null;
   }
-}; 
+};
+
