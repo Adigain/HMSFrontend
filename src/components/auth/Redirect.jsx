@@ -54,6 +54,9 @@ const Redirect = () => {
           } else if (roleLC === 'doctor') {
             console.log("Redirecting to doctor dashboard...");
             window.location.href = '/doctor/dashboard';
+          } else if (roleLC === 'labtech') {
+            console.log("Redirecting to lab technician dashboard...");
+            window.location.href = '/labtech/dashboard'; 
           } else if (roleLC === 'admin') {
             console.log("Redirecting to admin dashboard...");
             window.location.href = '/admin/dashboard';

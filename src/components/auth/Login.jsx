@@ -56,6 +56,9 @@ const Login = () => {
         case 'doctor':
           response = await authService.doctorLogin(credentials);
           break;
+        case 'labtech':
+          response = await authService.labtechLogin(credentials);
+          break;
         case 'admin':
           response = await authService.adminLogin(credentials);
           break;
@@ -91,7 +94,10 @@ const Login = () => {
         window.location.href = '/patient/dashboard';
       } else if (role === 'doctor') {
         window.location.href = '/doctor/dashboard';
-      } else if (role === 'admin') {
+      } else if (role === 'labtech') {
+        window.location.href = '/labtech/dashboard';
+      }
+      else if (role === 'admin') {
         window.location.href = '/admin/dashboard';
       } else {
         navigate('/');

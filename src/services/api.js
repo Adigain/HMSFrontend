@@ -86,6 +86,21 @@ export const authService = {
         throw error;
       });
   },
+  labtechLogin: (credentials) => {
+    return api.post('/auth/labtech/login', credentials)
+      .then(response => {
+        if (!response.data.token || !response.data.success) {
+          throw new Error(response.data.message || 'Invalid login response');
+        }
+        return response;
+      })
+      .catch(error => {
+        if (error.response && error.response.data) {
+          throw { ...error, message: error.response.data.message || 'Login failed' };
+        }
+        throw error;
+      });
+  },
   adminLogin: (credentials) => {
     return api.post('/auth/admin/login', credentials)
       .then(response => {
@@ -208,9 +223,7 @@ export const doctorService = {
   },
 };
 
-// ✅ LabTech Service - Combined API + Mock Functionality (Dashboard Compatible)
 export const labtechService = {
-  // ===== CRUD Operations =====
   getAllLabTechs: () => api.get('/labtechs'),
   getLabTechById: (id) => api.get(`/labtechs/${id}`),
   addLabTech: (data) => api.post('/labtechs', data),
