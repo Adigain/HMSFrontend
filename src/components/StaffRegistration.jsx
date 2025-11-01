@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { EnvelopeIcon, EyeIcon, EyeSlashIcon, UserCircleIcon } from "@heroicons/react/24/outline";
-import { staffService } from "../services/api"; // ensure this points to your axios service
+import { doctorService } from "../services/api"; // ensure this points to your axios service
 import { SPECIALIZATION_OPTIONS } from "../utils/enums";
 
 const DoctorRegistration = () => {
@@ -65,8 +65,8 @@ const DoctorRegistration = () => {
       };
 
       console.log("Doctor registration payload:", payload);
-
-      await staffService.createDoctor(payload);
+      await doctorService.addDoctor(payload);
+      //await staffService.createDoctor(payload);
       toast.success("Doctor registered successfully!");
       navigate("/login");
     } catch (err) {

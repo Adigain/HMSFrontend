@@ -146,12 +146,6 @@ export const patientService = {
 //     return api.post(endpoint.trim(), data); 
 //   }
 // };
-export const staffService = {
-  createDoctor: async (data) => {
-    return await api.post(`/doctors`, data);
-  },
-};
-
 
 // Staff services
 // (no staffService defined)
@@ -212,6 +206,14 @@ export const doctorService = {
       throw error;
     }
   },
+};
+
+export const labtechService = {
+  getAllLabTechs: () => api.get('/labtechs'),
+  getLabTechById: (id) => api.get(`/labtechs/${id}`),
+  addLabTech: (data) => api.post('/labtechs', data),
+  updateLabTech: (id, data) => api.put(`/labtechs/${id}`, data),
+  deleteLabTech: (id) => api.delete(`/labtechs/${id}`)
 };
 
 // Specialty services
