@@ -1,18 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { EnvelopeIcon, EyeIcon, EyeSlashIcon, UserCircleIcon } from "@heroicons/react/24/outline";
-import { doctorService } from "../services/api"; // ensure this points to your axios service
+import {
+  EnvelopeIcon,
+  EyeIcon,
+  EyeSlashIcon,
+  UserCircleIcon,
+} from "@heroicons/react/24/outline";
+import { doctorService, labtechService } from "../services/api"; 
 import { SPECIALIZATION_OPTIONS } from "../utils/enums";
 
-const DoctorRegistration = () => {
+const StaffRegistration = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [form, setForm] = useState({
-    drName: "",
+    designation: "Doctor", 
+    name: "",
     mobileNo: "",
     emailId: "",
     gender: "Male",
@@ -21,27 +27,32 @@ const DoctorRegistration = () => {
     password: "",
     confirmPassword: "",
     spId: "",
-    picture: ""
+    picture: "", 
   });
 
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    if (name === "designation" && value !== "Doctor") {
+      setForm((prev) => ({ ...prev, designation: value, spId: "", picture: "" }));
+      return;
+    }
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const validate = () => {
     const newErrors = {};
-    if (!form.drName) newErrors.drName = "Name is required";
+    if (!form.name) newErrors.name = "Name is required";
     if (!/^[0-9]{10}$/.test(form.mobileNo)) newErrors.mobileNo = "Mobile must be 10 digits";
     if (!form.emailId || !/\S+@\S+\.\S+/.test(form.emailId)) newErrors.emailId = "Valid email required";
-    if (!form.age || form.age <= 0) newErrors.age = "Valid age required";
-    if (!form.experience) newErrors.experience = "Experience required";
-    if (!form.spId) newErrors.spId = "Specialization required";
+    if (!form.age || Number(form.age) <= 0) newErrors.age = "Valid age required";
+    if (form.experience === "" || Number(form.experience) < 0) newErrors.experience = "Experience required";
     if (!form.password || form.password.length < 6) newErrors.password = "Password must be at least 6 chars";
-    if (form.password !== form.confirmPassword)
-      newErrors.confirmPassword = "Passwords do not match";
+    if (form.password !== form.confirmPassword) newErrors.confirmPassword = "Passwords do not match";
+    // specialization required only for Doctors
+    if (form.designation === "Doctor" && !form.spId) newErrors.spId = "Specialization required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -52,25 +63,43 @@ const DoctorRegistration = () => {
 
     setLoading(true);
     try {
-      const payload = {
-        drName: form.drName.trim(),
-        mobileNo: form.mobileNo.trim(),
-        emailId: form.emailId.trim(),
-        gender: form.gender,
-        age: Number(form.age),
-        experience: Number(form.experience),
-        password: form.password.trim(),
-        spId: Number(form.spId),
-        picture: form.picture || null
-      };
+      if (form.designation === "Doctor") {
+        // Doctor payload order: drName, mobileNo, emailId, gender, age, experience, password, spId, picture
+        const doctorPayload = {
+          drName: form.name.trim(),
+          mobileNo: form.mobileNo.trim(),
+          emailId: form.emailId.trim(),
+          gender: form.gender,
+          age: Number(form.age),
+          experience: Number(form.experience),
+          password: form.password.trim(),
+          spId: Number(form.spId),
+          picture: form.picture || null,
+        };
 
-      console.log("Doctor registration payload:", payload);
-      await doctorService.addDoctor(payload);
-      //await staffService.createDoctor(payload);
-      toast.success("Doctor registered successfully!");
+        console.log("Doctor registration payload:", doctorPayload);
+        await doctorService.addDoctor(doctorPayload);
+        toast.success("Doctor registered successfully!");
+      } else {
+        // Labtech payload order: lbName, mobileNo, emailId, gender, age, experience, password
+        const labtechPayload = {
+          lbName: form.name.trim(),
+          mobileNo: form.mobileNo.trim(),
+          emailId: form.emailId.trim(),
+          gender: form.gender,
+          age: Number(form.age),
+          experience: Number(form.experience),
+          password: form.password.trim(),
+        };
+
+        console.log("Labtech registration payload:", labtechPayload);
+        await labtechService.addLabTech(labtechPayload);
+        toast.success("Labtech registered successfully!");
+      }
+
       navigate("/login");
     } catch (err) {
-      console.error("Doctor registration failed", err);
+      console.error("Staff registration failed", err);
       toast.error(err.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
@@ -84,23 +113,34 @@ const DoctorRegistration = () => {
           <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-white shadow mb-4">
             <UserCircleIcon className="h-8 w-8 text-primary-600" />
           </div>
-          <h1 className="text-2xl font-bold">Doctor Registration</h1>
-          <p className="text-sm text-gray-600">Enter doctor details below</p>
+          <h1 className="text-2xl font-bold">Staff Registration</h1>
+          <p className="text-sm text-gray-600">Register a Doctor or Labtech</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
+            <label className="block text-sm font-medium mb-1">Designation</label>
+            <select
+              name="designation"
+              value={form.designation}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border rounded-lg"
+            >
+              <option value="Doctor">Doctor</option>
+              <option value="Labtech">Labtech</option>
+            </select>
+          </div>
+
+          <div>
             <label className="block text-sm font-medium mb-1">Full Name</label>
             <input
-              name="drName"
-              value={form.drName}
+              name="name"
+              value={form.name}
               onChange={handleChange}
-              className={`w-full px-4 py-3 border rounded-lg ${
-                errors.drName ? "border-red-500" : "border-gray-300"
-              }`}
-              placeholder="Dr. John Doe"
+              className={`w-full px-4 py-3 border rounded-lg ${errors.name ? "border-red-500" : "border-gray-300"}`}
+              placeholder={form.designation === "Doctor" ? "Dr. John Doe" : "Labtech Name"}
             />
-            {errors.drName && <p className="text-red-500 text-sm">{errors.drName}</p>}
+            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -110,9 +150,7 @@ const DoctorRegistration = () => {
                 name="mobileNo"
                 value={form.mobileNo}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg ${
-                  errors.mobileNo ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`w-full px-4 py-3 border rounded-lg ${errors.mobileNo ? "border-red-500" : "border-gray-300"}`}
                 placeholder="0123456789"
               />
               {errors.mobileNo && <p className="text-red-500 text-sm">{errors.mobileNo}</p>}
@@ -126,10 +164,8 @@ const DoctorRegistration = () => {
                   name="emailId"
                   value={form.emailId}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg ${
-                    errors.emailId ? "border-red-500" : "border-gray-300"
-                  }`}
-                  placeholder="doctor@example.com"
+                  className={`w-full px-4 py-3 border rounded-lg ${errors.emailId ? "border-red-500" : "border-gray-300"}`}
+                  placeholder="staff@example.com"
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                   <EnvelopeIcon className="h-5 w-5 text-gray-400" />
@@ -142,12 +178,7 @@ const DoctorRegistration = () => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Gender</label>
-              <select
-                name="gender"
-                value={form.gender}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-lg"
-              >
+              <select name="gender" value={form.gender} onChange={handleChange} className="w-full px-4 py-3 border rounded-lg">
                 <option>Male</option>
                 <option>Female</option>
                 <option>Other</option>
@@ -161,9 +192,7 @@ const DoctorRegistration = () => {
                 type="number"
                 value={form.age}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg ${
-                  errors.age ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`w-full px-4 py-3 border rounded-lg ${errors.age ? "border-red-500" : "border-gray-300"}`}
                 placeholder="35"
               />
               {errors.age && <p className="text-red-500 text-sm">{errors.age}</p>}
@@ -178,34 +207,47 @@ const DoctorRegistration = () => {
                 type="number"
                 value={form.experience}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg ${
-                  errors.experience ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`w-full px-4 py-3 border rounded-lg ${errors.experience ? "border-red-500" : "border-gray-300"}`}
                 placeholder="10"
               />
               {errors.experience && <p className="text-red-500 text-sm">{errors.experience}</p>}
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">Specialization</label>
-              <select
-                name="spId"
-                value={form.spId}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg ${
-                  errors.spId ? "border-red-500" : "border-gray-300"
-                }`}
-              >
-                <option value="">Select specialization</option>
-                {SPECIALIZATION_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-              {errors.spId && <p className="text-red-500 text-sm">{errors.spId}</p>}
-            </div>
+            {form.designation === "Doctor" ? (
+              <div>
+                <label className="block text-sm font-medium mb-1">Specialization</label>
+                <select
+                  name="spId"
+                  value={form.spId}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-3 border rounded-lg ${errors.spId ? "border-red-500" : "border-gray-300"}`}
+                >
+                  <option value="">Select specialization</option>
+                  {SPECIALIZATION_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+                {errors.spId && <p className="text-red-500 text-sm">{errors.spId}</p>}
+              </div>
+            ) : (
+              <div />
+            )}
           </div>
+
+          {form.designation === "Doctor" && (
+            <div>
+              <label className="block text-sm font-medium mb-1">Picture URL (optional)</label>
+              <input
+                name="picture"
+                value={form.picture}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                placeholder="https://..."
+              />
+            </div>
+          )}
 
           <div>
             <label className="block text-sm font-medium mb-1">Password</label>
@@ -218,11 +260,7 @@ const DoctorRegistration = () => {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg"
                 placeholder="Enter password"
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword((s) => !s)}
-                className="absolute inset-y-0 right-0 pr-3 text-gray-400"
-              >
+              <button type="button" onClick={() => setShowPassword((s) => !s)} className="absolute inset-y-0 right-0 pr-3 text-gray-400">
                 {showPassword ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
               </button>
             </div>
@@ -240,23 +278,15 @@ const DoctorRegistration = () => {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg"
                 placeholder="Confirm password"
               />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword((s) => !s)}
-                className="absolute inset-y-0 right-0 pr-3 text-gray-400"
-              >
+              <button type="button" onClick={() => setShowConfirmPassword((s) => !s)} className="absolute inset-y-0 right-0 pr-3 text-gray-400">
                 {showConfirmPassword ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
               </button>
             </div>
             {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 rounded-lg text-white bg-primary-600 hover:bg-primary-700"
-          >
-            {loading ? "Creating..." : "Register Doctor"}
+          <button type="submit" disabled={loading} className="w-full py-3 rounded-lg text-white bg-primary-600 hover:bg-primary-700">
+            {loading ? "Creating..." : "Register Staff"}
           </button>
         </form>
 
@@ -271,4 +301,4 @@ const DoctorRegistration = () => {
   );
 };
 
-export default DoctorRegistration;
+export default StaffRegistration;
