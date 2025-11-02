@@ -2,6 +2,7 @@ export const DESIGNATIONS = Object.freeze({
   ADMIN: 'ADMIN',
   DOCTOR: 'DOCTOR',  
   LABTECH: 'LAB TECHNICIAN',  
+  PHARMACIST: 'PHARMACIST',
 });
 
 export const SPECIALIZATIONS = Object.freeze({
