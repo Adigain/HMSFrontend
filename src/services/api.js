@@ -101,6 +101,21 @@ export const authService = {
         throw error;
       });
   },
+  pharmacistLogin: (credentials) => {
+    return api.post('/auth/pharmacist/login', credentials)
+      .then(response => {
+        if (!response.data.token || !response.data.success) {
+          throw new Error(response.data.message || 'Invalid login response');
+        }
+        return response;
+      })
+      .catch(error => {
+        if (error.response && error.response.data) {
+          throw { ...error, message: error.response.data.message || 'Login failed' };
+        }
+        throw error;
+      });
+  },
   adminLogin: (credentials) => {
     return api.post('/auth/admin/login', credentials)
       .then(response => {
@@ -261,6 +276,14 @@ export const labtechService = {
     console.log(`MOCK API: Updating test ${testId} status to ${newStatus}`);
     return Promise.resolve({ data: { success: true, message: 'Status updated successfully' } });
   }
+};
+
+export const pharmacistService = {
+  getAllPharmacists: () => api.get('/pharmacists'),
+  getPharmacistById: (id) => api.get(`/pharmacists/${id}`),
+  addPharmacist: (data) => api.post('/pharmacists', data),
+  updatePharmacist: (id, data) => api.put(`/pharmacists/${id}`, data),
+  deletePharmacist: (id) => api.delete(`/pharmacists/${id}`),
 };
 
 // Specialty services

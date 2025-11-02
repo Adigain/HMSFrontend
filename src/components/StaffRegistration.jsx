@@ -7,7 +7,7 @@ import {
   EyeSlashIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
-import { doctorService, labtechService } from "../services/api"; 
+import { doctorService, labtechService, pharmacistService } from "../services/api"; 
 import { SPECIALIZATION_OPTIONS } from "../utils/enums";
 
 const StaffRegistration = () => {
@@ -80,7 +80,7 @@ const StaffRegistration = () => {
         console.log("Doctor registration payload:", doctorPayload);
         await doctorService.addDoctor(doctorPayload);
         toast.success("Doctor registered successfully!");
-      } else {
+      } else if (form.designation === "Labtech") {
         // Labtech payload order: lbName, mobileNo, emailId, gender, age, experience, password
         const labtechPayload = {
           lbName: form.name.trim(),
@@ -95,6 +95,21 @@ const StaffRegistration = () => {
         console.log("Labtech registration payload:", labtechPayload);
         await labtechService.addLabTech(labtechPayload);
         toast.success("Labtech registered successfully!");
+      } else if (form.designation === "Pharmacist") {
+        // Pharmacist payload order: phName, mobileNo, emailId, gender, age, experience, password
+        const pharmacistPayload = {
+          phName: form.name.trim(),
+          mobileNo: form.mobileNo.trim(),
+          emailId: form.emailId.trim(),
+          gender: form.gender,
+          age: Number(form.age),
+          experience: Number(form.experience),
+          password: form.password.trim(),
+        };
+
+        console.log("Pharmacist registration payload:", pharmacistPayload);
+        await pharmacistService.addPharmacist(pharmacistPayload);
+        toast.success("Pharmacist registered successfully!");
       }
 
       navigate("/login");
@@ -114,7 +129,7 @@ const StaffRegistration = () => {
             <UserCircleIcon className="h-8 w-8 text-primary-600" />
           </div>
           <h1 className="text-2xl font-bold">Staff Registration</h1>
-          <p className="text-sm text-gray-600">Register a Doctor or Labtech</p>
+          <p className="text-sm text-gray-600">Register a Doctor, Labtech or Pharmacist</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -128,6 +143,7 @@ const StaffRegistration = () => {
             >
               <option value="Doctor">Doctor</option>
               <option value="Labtech">Labtech</option>
+              <option value="Pharmacist">Pharmacist</option>
             </select>
           </div>
 
@@ -138,7 +154,7 @@ const StaffRegistration = () => {
               value={form.name}
               onChange={handleChange}
               className={`w-full px-4 py-3 border rounded-lg ${errors.name ? "border-red-500" : "border-gray-300"}`}
-              placeholder={form.designation === "Doctor" ? "Dr. John Doe" : "Labtech Name"}
+              placeholder={form.designation === "Doctor" ? "Doctor Name" : form.designation === "Labtech" ? "Labtech Name" : "Pharmacist Name"}
             />
             {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
           </div>

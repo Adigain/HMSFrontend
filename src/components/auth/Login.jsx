@@ -59,6 +59,9 @@ const Login = () => {
         case 'labtech':
           response = await authService.labtechLogin(credentials);
           break;
+        case 'pharmacist':
+          response = await authService.pharmacistLogin(credentials);
+          break;
         case 'admin':
           response = await authService.adminLogin(credentials);
           break;
@@ -96,8 +99,9 @@ const Login = () => {
         window.location.href = '/doctor/dashboard';
       } else if (role === 'labtech') {
         window.location.href = '/labtech/dashboard';
-      }
-      else if (role === 'admin') {
+      } else if (role === 'pharmacist') {
+        window.location.href = '/pharmacist/dashboard';
+      } else if (role === 'admin') {
         window.location.href = '/admin/dashboard';
       } else {
         navigate('/');
@@ -254,6 +258,7 @@ const Login = () => {
                   <option value="doctor">Doctor</option>
                   <option value="admin">Administrator</option>
                   <option value="labtech">Lab Technician</option>
+                  <option value="pharmacist">Pharmacist</option>
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                   <ChevronDownIcon className="h-5 w-5 text-gray-400" />

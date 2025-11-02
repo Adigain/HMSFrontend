@@ -116,6 +116,9 @@ const ProtectedRoute = ({ requiredRole }) => {
     } else if (userRoleUpper === 'LABTECH') { // <-- ADDED THE EXPLICIT REDIRECTION CHECK
       console.log("→ Redirecting to labtech dashboard");
       return <Navigate to="/labtech/dashboard" replace />; // Ensures LABTECH is sent here on mismatch 
+    } else if (userRoleUpper === 'PHARMACIST') {
+      console.log("→ Redirecting to pharmacist dashboard");
+      return <Navigate to="/pharmacist/dashboard" replace />;
     } else {
       console.log("→ Unknown role - redirecting to login");
       return <Navigate to="/login" replace />;
