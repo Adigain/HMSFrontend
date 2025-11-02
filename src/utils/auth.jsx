@@ -20,55 +20,83 @@ export const AuthProvider = ({ children }) => {
 
       if (token && userStr) {
         try {
-          // BYPASS TOKEN VALIDATION - always consider token valid
-          console.log("BYPASSING TOKEN VALIDATION - Setting user without validation");
+          // Accept stored user without backend validation in dev mode / local usage
           setUser(JSON.parse(userStr));
-          
         } catch (error) {
-          console.error('Token validation error:', error);
-          // DISABLED LOGOUT - just set the user anyway
-          try {
-            console.log("Setting user despite validation error");
-            setUser(JSON.parse(userStr));
-          } catch (e) {
-            console.error("Could not parse user data:", e);
-          }
+          console.error('Token/user parse error:', error);
+          // If parse fails, clear stored data and fallback to default creation logic
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          createDefaultIfNeeded();
         }
-      } else if (!userStr) {
-        // If no user in storage, create a default one
-        // If no user data is found, create a default LABTECH user 
-        // to enable normal access to the LabTech dashboard during development.
-        console.log("No user found in storage, creating default LABTECH user for development");
-        const defaultUser = {
-          id: 456, // Use a unique ID for the LabTech mock
-          name: "Default LabTech",
-          email: "labtech@example.com",
-          role: "LABTECH" // <--- DEFAULT ROLE IS LABTECH
-        };
-        localStorage.setItem('token', 'default-labtech-token-' + Date.now());
-        localStorage.setItem('user', JSON.stringify(defaultUser));
-        setUser(defaultUser);
+      } else {
+        createDefaultIfNeeded();
       }
+
       setLoading(false);
     };
 
+    const createDefaultIfNeeded = () => {
+      // If user already set by other flow, skip
+      if (localStorage.getItem('user')) return;
+
+      // Determine desired default role:
+      // 1) REACT_APP_DEFAULT_ROLE env var (useful for CI/dev)
+      // 2) infer from current path (pharmacist pages)
+      // 3) fall back to LABTECH for backward compatibility
+      const envRole = (process.env.REACT_APP_DEFAULT_ROLE || '').trim().toUpperCase();
+      const path = (window.location.pathname || '').toLowerCase();
+
+      let defaultRole = envRole;
+      if (!defaultRole) {
+        if (path.includes('/pharmacist')) defaultRole = 'PHARMACIST';
+        else if (path.includes('/labtech')) defaultRole = 'LABTECH';
+        else defaultRole = 'LABTECH';
+      }
+
+      // Only create a dev default user when running locally (not recommended in production)
+      const allowDevUser = process.env.NODE_ENV !== 'production';
+
+      if (!allowDevUser) return;
+
+      const defaultUser = {
+        id: `dev-${Date.now()}`,
+        name: defaultRole === 'PHARMACIST' ? 'Dev Pharmacist' : `Dev ${defaultRole}`,
+        email: `${defaultRole.toLowerCase()}@example.com`,
+        role: defaultRole
+      };
+
+      localStorage.setItem('token', `dev-token-${Date.now()}`);
+      localStorage.setItem('user', JSON.stringify(defaultUser));
+      setUser(defaultUser);
+      console.info(`Auth: created default dev user role=${defaultRole}`);
+    };
+
     initAuth();
-  }, [navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleLogout = () => {
-    console.log("Logout requested - clearing localStorage and redirecting to login");
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
-    
-    // Restore normal logout behavior
     navigate('/login');
   };
 
   const loginUser = (userData, token) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(userData));
-    setUser(userData);
+    // Accept either (userData, token) or backend response object { token, user }
+    let u = userData;
+    let t = token;
+    if (userData && typeof userData === 'object' && !token && userData.token && userData.user) {
+      t = userData.token;
+      u = userData.user;
+    }
+
+    if (t) localStorage.setItem('token', t);
+    if (u) {
+      localStorage.setItem('user', JSON.stringify(u));
+      setUser(u);
+    }
   };
 
   return (
@@ -87,33 +115,17 @@ export const useAuth = () => {
   return context;
 };
 
-// Protected Route Component
+// Helpers used elsewhere (ProtectedRoute)
 export const isAuthenticated = () => {
   try {
     const token = localStorage.getItem('token');
     const userStr = localStorage.getItem('user');
-    
-    if (!token || !userStr) {
-      console.log("Authentication check failed: missing token or user data");
-      return false;
-    }
-    
-
-    try {
-      const user = JSON.parse(userStr);
-      if (!user || !user.role) {
-        console.log("Authentication check failed: invalid user data format");
-        return false;
-      }
-    } catch (e) {
-      console.error("Authentication check failed: user data parsing error", e);
-      return false;
-    }
-    
-    console.log("Authentication check passed");
+    if (!token || !userStr) return false;
+    const user = JSON.parse(userStr);
+    if (!user || !user.role) return false;
     return true;
   } catch (error) {
-    console.error("Error checking authentication:", error);
+    console.error('isAuthenticated error:', error);
     return false;
   }
 };
@@ -121,15 +133,11 @@ export const isAuthenticated = () => {
 export const getUserRole = () => {
   const userStr = localStorage.getItem('user');
   if (!userStr) return null;
-  
   try {
     const user = JSON.parse(userStr);
-    console.log("Getting user role from storage:", user);
-    
-    // Return the role directly, comparison should be done case-insensitively where used
-    return user.role;
+    return user.role ? String(user.role).toUpperCase() : null;
   } catch (error) {
-    console.error('Error parsing user data:', error);
+    console.error('getUserRole parse error:', error);
     return null;
   }
 };
@@ -137,12 +145,10 @@ export const getUserRole = () => {
 export const getUser = () => {
   const userStr = localStorage.getItem('user');
   if (!userStr) return null;
-  
   try {
     return JSON.parse(userStr);
   } catch (error) {
-    console.error('Error parsing user data:', error);
+    console.error('getUser parse error:', error);
     return null;
   }
 };
-
