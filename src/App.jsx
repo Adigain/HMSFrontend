@@ -20,6 +20,7 @@ import {
   ClipboardDocumentListIcon,
   UserIcon,
   ChartBarIcon,
+  BeakerIcon, // Added BeakerIcon for Lab Tests menu item
   LockClosedIcon,
 } from '@heroicons/react/24/outline';
 import { ToastContainer } from 'react-toastify';
@@ -51,6 +52,12 @@ import AdminDashboard from './components/admin/Dashboard';
 import AdminDoctors from './components/admin/Doctors';
 import AdminPatients from './components/admin/Patients';
 import AdminAppointments from './components/admin/Appointments';
+
+// Import LabTech components
+import LabTechDashboard from './components/labtech/Dashboard';
+import LabTechLabTests from './components/labtech/LabTests.jsx';
+import LabTechLabReports from './components/labtech/LabReports';
+import LabTechProfile from './components/labtech/Profile';
 
 const adminSidebarItems = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon },
@@ -96,6 +103,18 @@ const patientSidebarItems = [
   },
 ];
 
+// LabTech Sidebar Menu Definition
+const labTechSidebarItems = [
+  { name: 'Dashboard', href: '/labtech/dashboard', icon: HomeIcon },
+  { name: 'Lab Tests', href: '/labtech/lab-tests', icon: BeakerIcon }, // Link to Lab Tests page
+  { name: 'Lab Reports', href: '/labtech/lab-reports', icon: ClipboardDocumentListIcon }, // Link to Lab Reports page
+  { 
+    name: 'My Profile', 
+    href: '/labtech/profile', 
+    icon: UserIcon,
+    highlight: true
+  },
+];
 function AppRoutes() {
   return (
     <Routes>
@@ -152,6 +171,17 @@ function AppRoutes() {
           <Route path="change-password" element={<ChangePassword />} />
         </Route>
       </Route>
+
+      {/* Lab Technician Routes (NEW BLOCK) */}
+      <Route path="/labtech" element={<ProtectedRoute requiredRole="LABTECH" />}> // Requires role "LABTECH" for access
+        <Route element={<DashboardLayout sidebarItems={labTechSidebarItems} />}> // Uses the LabTech sidebar
+          <Route path="dashboard" element={<LabTechDashboard />} /> // Main dashboard view
+          <Route path="lab-tests" element={<LabTechLabTests />} /> // Component for managing tests
+          <Route path="lab-reports" element={<LabTechLabReports />} /> // Component for managing reports
+          <Route path="profile" element={<LabTechProfile />} /> // Component for profile management
+        </Route>
+      </Route>
+
 
       {/* Remove direct dashboard access - must be authenticated */}
       {/* <Route path="/dashboard" element={<PatientDashboard />} /> */}
