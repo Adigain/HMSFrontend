@@ -242,45 +242,80 @@ export const doctorService = {
 
 
 
+// export const labtechService = {
+//   getAllLabTechs: () => api.get('/labtechs'),
+//   getLabTechById: (id) => api.get(`/labtechs/${id}`),
+//   addLabTech: (data) => api.post('/labtechs', data),
+//   updateLabTech: (id, data) => api.put(`/labtechs/${id}`, data),
+//   deleteLabTech: (id) => api.delete(`/labtechs/${id}`),
+
+//   // // ===== Mock Data for Lab Tests =====
+//   // getLabTestsByLabtech: (id) => {
+//   //   console.log(`MOCK API: Fetching lab tests for labtech ${id}`);
+//   //   const mockData = [
+//   //     { id: 101, patientId: 123, patientName: 'John Doe', testName: 'Complete Blood Count (CBC)', status: 'Pending', date: '2025-10-25', priority: 'High' },
+//   //     { id: 102, patientId: 124, patientName: 'Jane Smith', testName: 'Blood Glucose Test', status: 'In Progress', date: '2025-10-24', priority: 'Medium' },
+//   //     { id: 104, patientId: 126, patientName: 'Emily Davis', testName: 'Urine Analysis', status: 'Pending', date: '2025-10-25', priority: 'Low' },
+//   //     { id: 105, patientId: 129, patientName: 'Mike Johnson', testName: 'Comprehensive Metabolic Panel', status: 'Pending', date: '2025-10-26', priority: 'High' },
+//   //     // ... additional mock tests
+//   //   ];
+//   //   return Promise.resolve({ data: mockData.filter(t => t.status !== 'Completed') });
+//   // },
+  
+
+
+//   getCompletedLabReports: (id) => {
+//     console.log(`MOCK API: Fetching completed lab reports for labtech ${id}`);
+//     const mockData = [
+//       { id: 201, patientId: 125, patientName: 'Robert Brown', testName: 'Thyroid Function Test', dateCompleted: '2025-10-23', reportUrl: '#', resultSummary: 'T3 and T4 levels are normal.' },
+//       { id: 202, patientId: 126, patientName: 'Emily White', testName: 'Liver Function Test', dateCompleted: '2025-10-24', reportUrl: '#', resultSummary: 'ALT slightly elevated.' },
+//       { id: 203, patientId: 127, patientName: 'Chris Evans', testName: 'Lipid Panel', dateCompleted: '2025-10-22', reportUrl: '#', resultSummary: 'Elevated LDL cholesterol.' },
+//       { id: 204, patientId: 128, patientName: 'Jessica Alba', testName: 'Liver Function Test', dateCompleted: '2025-10-20', reportUrl: '#', resultSummary: 'Results are within normal limits.' },
+//       // ... additional mock reports
+//     ];
+//     return Promise.resolve({ data: mockData });
+//   },
+
+//   // ===== Mock Function for Updating Test Status =====
+//   updateLabTestStatus: (testId, newStatus) => {
+//     console.log(`MOCK API: Updating test ${testId} status to ${newStatus}`);
+//     return Promise.resolve({ data: { success: true, message: 'Status updated successfully' } });
+//   }
+// };
 export const labtechService = {
+
   getAllLabTechs: () => api.get('/labtechs'),
   getLabTechById: (id) => api.get(`/labtechs/${id}`),
   addLabTech: (data) => api.post('/labtechs', data),
   updateLabTech: (id, data) => api.put(`/labtechs/${id}`, data),
   deleteLabTech: (id) => api.delete(`/labtechs/${id}`),
 
-  // // ===== Mock Data for Lab Tests =====
-  // getLabTestsByLabtech: (id) => {
-  //   console.log(`MOCK API: Fetching lab tests for labtech ${id}`);
-  //   const mockData = [
-  //     { id: 101, patientId: 123, patientName: 'John Doe', testName: 'Complete Blood Count (CBC)', status: 'Pending', date: '2025-10-25', priority: 'High' },
-  //     { id: 102, patientId: 124, patientName: 'Jane Smith', testName: 'Blood Glucose Test', status: 'In Progress', date: '2025-10-24', priority: 'Medium' },
-  //     { id: 104, patientId: 126, patientName: 'Emily Davis', testName: 'Urine Analysis', status: 'Pending', date: '2025-10-25', priority: 'Low' },
-  //     { id: 105, patientId: 129, patientName: 'Mike Johnson', testName: 'Comprehensive Metabolic Panel', status: 'Pending', date: '2025-10-26', priority: 'High' },
-  //     // ... additional mock tests
-  //   ];
-  //   return Promise.resolve({ data: mockData.filter(t => t.status !== 'Completed') });
-  // },
-  
+ 
+  getAllAppointments: () => api.get('/labappointments'),
+  getAppointmentById: (id) => api.get(`/labappointments/${id}`),
+  addAppointment: (data) => api.post('/labappointments', data),
+  updateAppointment: (id, data) => api.put(`/labappointments/${id}`, data),
+  deleteAppointment: (id) => api.delete(`/labappointments/${id}`),
 
-  // ===== Mock Data for Completed Reports =====
-  getCompletedLabReports: (id) => {
-    console.log(`MOCK API: Fetching completed lab reports for labtech ${id}`);
-    const mockData = [
-      { id: 201, patientId: 125, patientName: 'Robert Brown', testName: 'Thyroid Function Test', dateCompleted: '2025-10-23', reportUrl: '#', resultSummary: 'T3 and T4 levels are normal.' },
-      { id: 202, patientId: 126, patientName: 'Emily White', testName: 'Liver Function Test', dateCompleted: '2025-10-24', reportUrl: '#', resultSummary: 'ALT slightly elevated.' },
-      { id: 203, patientId: 127, patientName: 'Chris Evans', testName: 'Lipid Panel', dateCompleted: '2025-10-22', reportUrl: '#', resultSummary: 'Elevated LDL cholesterol.' },
-      { id: 204, patientId: 128, patientName: 'Jessica Alba', testName: 'Liver Function Test', dateCompleted: '2025-10-20', reportUrl: '#', resultSummary: 'Results are within normal limits.' },
-      // ... additional mock reports
-    ];
-    return Promise.resolve({ data: mockData });
-  },
+ 
+  getAppointmentsByDoctor: (doctorId) => api.get(`/labappointments/doctor/${doctorId}`),
+  getAppointmentsByLabTech: (labTechId) => api.get(`/labappointments/labtech/${labTechId}`),
+  getAppointmentsByPatient: (patientId) => api.get(`/labappointments/patient/${patientId}`),
 
-  // ===== Mock Function for Updating Test Status =====
-  updateLabTestStatus: (testId, newStatus) => {
-    console.log(`MOCK API: Updating test ${testId} status to ${newStatus}`);
-    return Promise.resolve({ data: { success: true, message: 'Status updated successfully' } });
-  }
+ 
+  getAllCompletedAppointments: () => api.get('/labappointments/completed'),
+  getAllPastAppointments: () => api.get('/labappointments/past'),
+  getAllUpcomingOrPendingAppointments: () => api.get('/labappointments/upcoming'),
+
+  searchAppointmentsByPatientName: (name) => api.get(`/labappointments/search`, { params: { name } }),
+
+
+  getAllLabTests: () => api.get('/labappointments/labtests'),
+  getLabTestById: (id) => api.get(`/labappointments/labtests/${id}`),
+  addLabTest: (data) => api.post('/labappointments/labtests', data),
+  updateLabTest: (id, data) => api.put(`/labappointments/labtests/${id}`, data),
+  deleteLabTest: (id) => api.delete(`/labappointments/labtests/${id}`),
+  searchLabTestsByName: (name) => api.get(`/labappointments/labtests/search`, { params: { name } }),
 };
 
 
