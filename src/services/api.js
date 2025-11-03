@@ -238,6 +238,10 @@ export const doctorService = {
   },
 };
 
+
+
+
+
 export const labtechService = {
   getAllLabTechs: () => api.get('/labtechs'),
   getLabTechById: (id) => api.get(`/labtechs/${id}`),
@@ -245,18 +249,19 @@ export const labtechService = {
   updateLabTech: (id, data) => api.put(`/labtechs/${id}`, data),
   deleteLabTech: (id) => api.delete(`/labtechs/${id}`),
 
-  // ===== Mock Data for Lab Tests =====
-  getLabTestsByLabtech: (id) => {
-    console.log(`MOCK API: Fetching lab tests for labtech ${id}`);
-    const mockData = [
-      { id: 101, patientId: 123, patientName: 'John Doe', testName: 'Complete Blood Count (CBC)', status: 'Pending', date: '2025-10-25', priority: 'High' },
-      { id: 102, patientId: 124, patientName: 'Jane Smith', testName: 'Blood Glucose Test', status: 'In Progress', date: '2025-10-24', priority: 'Medium' },
-      { id: 104, patientId: 126, patientName: 'Emily Davis', testName: 'Urine Analysis', status: 'Pending', date: '2025-10-25', priority: 'Low' },
-      { id: 105, patientId: 129, patientName: 'Mike Johnson', testName: 'Comprehensive Metabolic Panel', status: 'Pending', date: '2025-10-26', priority: 'High' },
-      // ... additional mock tests
-    ];
-    return Promise.resolve({ data: mockData.filter(t => t.status !== 'Completed') });
-  },
+  // // ===== Mock Data for Lab Tests =====
+  // getLabTestsByLabtech: (id) => {
+  //   console.log(`MOCK API: Fetching lab tests for labtech ${id}`);
+  //   const mockData = [
+  //     { id: 101, patientId: 123, patientName: 'John Doe', testName: 'Complete Blood Count (CBC)', status: 'Pending', date: '2025-10-25', priority: 'High' },
+  //     { id: 102, patientId: 124, patientName: 'Jane Smith', testName: 'Blood Glucose Test', status: 'In Progress', date: '2025-10-24', priority: 'Medium' },
+  //     { id: 104, patientId: 126, patientName: 'Emily Davis', testName: 'Urine Analysis', status: 'Pending', date: '2025-10-25', priority: 'Low' },
+  //     { id: 105, patientId: 129, patientName: 'Mike Johnson', testName: 'Comprehensive Metabolic Panel', status: 'Pending', date: '2025-10-26', priority: 'High' },
+  //     // ... additional mock tests
+  //   ];
+  //   return Promise.resolve({ data: mockData.filter(t => t.status !== 'Completed') });
+  // },
+  
 
   // ===== Mock Data for Completed Reports =====
   getCompletedLabReports: (id) => {
@@ -277,6 +282,10 @@ export const labtechService = {
     return Promise.resolve({ data: { success: true, message: 'Status updated successfully' } });
   }
 };
+
+
+
+
 
 export const pharmacistService = {
   getAllPharmacists: () => api.get('/pharmacists'),
