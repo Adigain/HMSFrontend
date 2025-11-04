@@ -24,7 +24,8 @@ import {
   BeakerIcon, // Added BeakerIcon for Lab Tests menu item
   LockClosedIcon,
   ShoppingCartIcon,
-  ShoppingBagIcon
+  ShoppingBagIcon,
+  CreditCardIcon,
 } from '@heroicons/react/24/outline';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -42,6 +43,7 @@ import UpdateProfile from './components/patient/UpdateProfile';
 import ChangePassword from './components/patient/ChangePassword';
 import PatientRegistration from './components/PatientRegistration';
 import StaffRegistration from './components/StaffRegistration';
+import Billing from './components/patient/Billing.jsx';
 
 // Import doctor components
 import DoctorDashboard from './components/doctor/Dashboard';
@@ -67,6 +69,7 @@ import PharmacistDashboard from './components/pharmacist/Dashboard';
 import MedicineInventory from './components/pharmacist/medicine_inventry';
 import MedicineOrders from './components/pharmacist/medicine_order';
 import PharmacistProfile from './components/pharmacist/profile';
+
 
 const adminSidebarItems = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon },
@@ -98,6 +101,12 @@ const patientSidebarItems = [
   },
   { name: 'My Appointments', href: '/patient/appointments', icon: CalendarIcon },
   { name: 'Prescriptions', href: '/patient/prescriptions', icon: ClipboardDocumentListIcon },
+  { 
+    name: 'Billing', 
+    href: '/patient/billing', 
+    icon: CreditCardIcon, 
+    highlight: false
+  },
   { 
     name: 'My Profile', 
     href: '/patient/profile', 
@@ -190,6 +199,7 @@ function AppRoutes() {
           <Route path="book-appointment/:patientId" element={<BookAppointment />} />
           <Route path="appointments" element={<Appointments />} />
           <Route path="prescriptions" element={<Prescriptions />} />
+          <Route path="billing" element={<Billing />} />
           <Route path="profile" element={<UpdateProfile />} />
           <Route path="change-password" element={<ChangePassword />} />
         </Route>
