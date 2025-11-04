@@ -383,6 +383,13 @@ export const prescriptionService = {
   deletePrescription: (id) => api.delete(`/prescriptions/${id}`)
 };
 
+export const billingService = {
+  getBillOrdersByPatientId: (patientId) => api.get(`/bills/patient/${patientId}`),
+  getBillOrderById: (billId) => api.get(`/bills/${billId}`),
+  getAllBillOrders: () => api.get(`/bills`),
+  updatePaymentStatus: (billId, status) =>
+    api.put(`/bills/${billId}/status`, null, { params: { status } }),
+};
 
 export default api;
 
