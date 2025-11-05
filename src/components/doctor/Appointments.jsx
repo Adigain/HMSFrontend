@@ -63,6 +63,10 @@ const Appointments = () => {
 
   // State for prescription modal - simplified version
   const [showSimplePrescriptionForm, setShowSimplePrescriptionForm] = useState(false);
+
+  const [showLabAppointmentForm, setShowLabAppointmentForm] = useState(false);
+  const [showMedicalOrderForm, setShowMedicalOrderForm] = useState(false);
+
   
   // Comment out the old prescription state since we're not using it
   /*
@@ -339,6 +343,410 @@ const Appointments = () => {
       </div>
     );
   };
+  const MedicalOrderForm = ({ selectedAppointment, setShowMedicalOrderForm }) => {
+  const [medicines, setMedicines] = React.useState([]);
+  const [selectedMeds, setSelectedMeds] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
+
+  // ✅ Fetch medicine list from backend inventory
+  React.useEffect(() => {
+    const fetchMedicines = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(`${API_BASE_URL}/medicine`);
+        setMedicines(res.data || []);
+      } catch (err) {
+        console.error("❌ Error fetching medicines:", err);
+        setError("Failed to load medicines from inventory");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMedicines();
+  }, []);
+
+  // ✅ Add a medicine
+  const addMedicine = (id) => {
+    const med = medicines.find((m) => m.medId === parseInt(id));
+    if (med && !selectedMeds.some((m) => m.medId === med.medId)) {
+      setSelectedMeds([
+        ...selectedMeds,
+        { ...med, quantity: 1, dosage: "", duration: "" },
+      ]);
+    }
+  };
+
+  // ✅ Remove selected medicine
+  const removeMedicine = (id) => {
+    setSelectedMeds(selectedMeds.filter((m) => m.medId !== id));
+  };
+
+  // ✅ Update medicine field (quantity, dosage, etc.)
+  const updateMedicine = (index, field, value) => {
+    const updated = [...selectedMeds];
+    updated[index][field] = value;
+    setSelectedMeds(updated);
+  };
+
+  // ✅ Calculate total price
+  const calculateTotal = () =>
+    selectedMeds.reduce(
+      (sum, med) => sum + med.medPrice * (med.quantity || 1),
+      0
+    );
+
+  // ✅ Submit handler
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const doctor = JSON.parse(localStorage.getItem("user") || "{}");
+      if (!doctor.id) {
+        toast.error("Doctor ID missing. Please log in again.");
+        return;
+      }
+
+      const payload = {
+        pId: selectedAppointment.patient.id,
+        drId: doctor.id,
+        totalPrice: calculateTotal(),
+        status: "PENDING",
+        items: selectedMeds.map((m) => ({
+          medId: m.medId,
+          quantity: m.quantity,
+          dosage: m.dosage,
+          duration: m.duration,
+        })),
+      };
+
+      console.log("🧾 Medicine Order Payload:", payload);
+
+      await axios.post(`${API_BASE_URL}/medicine-orders`, payload);
+      toast.success("✅ Medical order created successfully!");
+      setShowMedicalOrderForm(false);
+    } catch (error) {
+      console.error("❌ Error creating medicine order:", error);
+      toast.error("Failed to create medicine order.");
+    }
+  };
+
+  // ✅ UI states
+  if (loading) {
+    return (
+      <div className="text-center text-gray-500">
+        <div className="animate-spin h-8 w-8 border-4 border-emerald-500 border-t-transparent mx-auto rounded-full"></div>
+        <p className="mt-3 text-sm">Loading medicines...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-red-600 py-8">
+        <p>{error}</p>
+        <button
+          onClick={() => setShowMedicalOrderForm(false)}
+          className="mt-3 px-4 py-2 bg-gray-200 rounded-md text-gray-700 hover:bg-gray-300"
+        >
+          Close
+        </button>
+      </div>
+    );
+  }
+
+  // ✅ Form UI
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Medicine selection */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Select Medicine
+        </label>
+        <div className="flex gap-2">
+          <select
+            onChange={(e) => addMedicine(e.target.value)}
+            className="flex-1 border border-gray-300 rounded-lg px-3 py-2"
+          >
+            <option value="">-- Select Medicine --</option>
+            {medicines.map((m) => (
+              <option key={m.medId} value={m.medId}>
+                {m.medName} (₹{m.medPrice} / unit)
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {/* Selected Medicines */}
+      {selectedMeds.length > 0 && (
+        <div className="space-y-3">
+          {selectedMeds.map((m, index) => (
+            <div
+              key={m.medId}
+              className="flex items-start justify-between border rounded-lg p-3 bg-gray-50"
+            >
+              <div className="flex-1">
+                <p className="font-medium text-gray-800">{m.medName}</p>
+                <p className="text-xs text-gray-500 mb-2">
+                  Price: ₹{m.medPrice} | Available: {m.medQuantity}
+                </p>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <input
+                    type="number"
+                    min="1"
+                    max={m.medQuantity}
+                    placeholder="Qty"
+                    value={m.quantity}
+                    onChange={(e) =>
+                      updateMedicine(index, "quantity", parseInt(e.target.value))
+                    }
+                    className="border border-gray-300 rounded px-2 py-1 text-sm"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Dosage (e.g. 500mg)"
+                    value={m.dosage}
+                    onChange={(e) =>
+                      updateMedicine(index, "dosage", e.target.value)
+                    }
+                    className="border border-gray-300 rounded px-2 py-1 text-sm"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Duration (e.g. 5 days)"
+                    value={m.duration}
+                    onChange={(e) =>
+                      updateMedicine(index, "duration", e.target.value)
+                    }
+                    className="border border-gray-300 rounded px-2 py-1 text-sm"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="ml-2 text-red-500 hover:text-red-700"
+                onClick={() => removeMedicine(m.medId)}
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Total Price */}
+      {selectedMeds.length > 0 && (
+        <div className="text-right font-semibold text-gray-800">
+          Total: ₹{calculateTotal().toFixed(2)}
+        </div>
+      )}
+
+      {/* Buttons */}
+      <div className="flex justify-end gap-3 mt-6">
+        <button
+          type="button"
+          onClick={() => setShowMedicalOrderForm(false)}
+          className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          disabled={selectedMeds.length === 0}
+          className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50"
+        >
+          Create Order
+        </button>
+      </div>
+    </form>
+  );
+};
+
+
+
+  const LabAppointmentFormContent = ({ setShowLabAppointmentForm, selectedAppointment }) => {
+  const [labTests, setLabTests] = React.useState([]);
+  const [labTechs, setLabTechs] = React.useState([]);
+  const [loadingData, setLoadingData] = React.useState(true);
+  const [error, setError] = React.useState(null);
+  
+
+
+  React.useEffect(() => {
+    const fetchLabData = async () => {
+      try {
+        setLoadingData(true);
+        setError(null);
+
+        
+        const testsRes = await axios.get(`${API_BASE_URL}/labtests`);
+        const techsRes = await axios.get(`${API_BASE_URL}/labtechs`);
+
+        setLabTests(testsRes.data || []);
+        setLabTechs(techsRes.data || []);
+      } catch (err) {
+        console.error("❌ Error fetching lab data:", err);
+        setError("Failed to load lab test or technician data");
+        toast.error("Failed to load lab test or technician data");
+      } finally {
+        setLoadingData(false);
+      }
+    };
+
+    fetchLabData();
+  }, []);
+
+  if (loadingData) {
+    return (
+      <div className="py-8 text-center text-gray-500">
+        <div className="animate-spin h-8 w-8 border-4 border-indigo-500 border-t-transparent mx-auto rounded-full"></div>
+        <p className="mt-3 text-sm">Loading lab data...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-red-600 py-8">
+        <p>{error}</p>
+        <button
+          onClick={() => setShowLabAppointmentForm(false)}
+          className="mt-3 px-4 py-2 bg-gray-200 rounded-md text-gray-700 hover:bg-gray-300"
+        >
+          Close
+        </button>
+      </div>
+    );
+  }
+
+  // ✅ Submit Handler
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const doctor = JSON.parse(localStorage.getItem("user") || "{}");
+      if (!doctor.id) {
+        toast.error("Doctor ID missing. Please log in again.");
+        return;
+      }
+
+      const payload = {
+        pId: selectedAppointment.patient.id,
+        drId: doctor.id,
+        lbId: e.target.labTech.value, // ✅ Correct key (matches backend)
+        testId: e.target.labType.value, // ✅ Correct key
+        appointmentDate: e.target.labDate.value,
+        appointmentTime: e.target.labTime.value,
+        remarks: e.target.labNotes.value, // ✅ Backend expects "remarks"
+        status: "PENDING",
+      };
+
+      console.log("🧾 Sending Lab Appointment Payload:", payload);
+
+      // ✅ Backend endpoint matches LabAppointmentController
+      await axios.post(`${API_BASE_URL}/labappointments`, payload);
+
+      toast.success("✅ Lab appointment created successfully!");
+      setShowLabAppointmentForm(false);
+    } catch (error) {
+      console.error("❌ Error creating lab appointment:", error);
+      toast.error("Failed to create lab appointment.");
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {/* 🔹 Lab Test Dropdown */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Select Test</label>
+        <select
+          name="labType"
+          required
+          className="w-full border border-gray-300 rounded-lg px-3 py-2"
+        >
+          <option value="">-- Select Test --</option>
+          {labTests.map((test) => (
+            <option key={test.testId || test.id} value={test.testId || test.id}>
+              {test.testName || test.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* 🔹 Lab Technician Dropdown */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Assign Technician</label>
+        <select
+          name="labTech"
+          required
+          className="w-full border border-gray-300 rounded-lg px-3 py-2"
+        >
+          <option value="">-- Select Technician --</option>
+          {labTechs.map((tech) => (
+            <option key={tech.lbId || tech.id} value={tech.lbId || tech.id}>
+              {tech.lbName || `${tech.firstName || ""} ${tech.lastName || ""}`}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* 🔹 Date & Time */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+          <input
+            type="date"
+            name="labDate"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Time</label>
+          <input
+            type="time"
+            name="labTime"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2"
+            required
+          />
+        </div>
+      </div>
+
+      {/* 🔹 Notes / Remarks */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+        <textarea
+          name="labNotes"
+          rows="3"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2"
+          placeholder="Add any specific instructions..."
+        ></textarea>
+      </div>
+
+      {/* 🔹 Buttons */}
+      <div className="flex justify-end gap-3 mt-6">
+        <button
+          type="button"
+          onClick={() => setShowLabAppointmentForm(false)}
+          className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+        >
+          Create
+        </button>
+      </div>
+    </form>
+  );
+};
+
 
   const getStatusIcon = (status) => {
     switch (status.toLowerCase()) {
@@ -971,6 +1379,55 @@ const Appointments = () => {
                   Create Prescription
                 </button>
               )}
+              {selectedAppointment && selectedAppointment.status.toLowerCase() === 'completed' && (
+  <button
+    type="button"
+    className="w-full md:w-auto inline-flex justify-center items-center rounded-md border border-transparent shadow-sm px-6 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none transition-colors duration-200"
+    onClick={() => setShowLabAppointmentForm(true)}
+  >
+    <CalendarDaysIcon className="h-5 w-5 mr-2" />
+    Create Lab Test
+  </button>
+)}
+{showLabAppointmentForm && selectedAppointment && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+    <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative animate-fadeIn">
+      <h2 className="text-xl font-semibold mb-4 text-gray-800">Create Lab Appointment</h2>
+
+      {/* ✅ Move hooks OUTSIDE of IIFE for valid React structure */}
+      <LabAppointmentFormContent
+        setShowLabAppointmentForm={setShowLabAppointmentForm}
+        selectedAppointment={selectedAppointment}
+      />
+    </div>
+  </div>
+)}
+{selectedAppointment && selectedAppointment.status.toLowerCase() === 'completed' && (
+  <button
+    type="button"
+    className="w-full md:w-auto inline-flex justify-center items-center rounded-md border border-transparent shadow-sm px-6 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none transition-colors duration-200"
+    onClick={() => setShowMedicalOrderForm(true)}
+  >
+    <DocumentTextIcon className="h-5 w-5 mr-2" />
+    Create Medical Order
+  </button>
+)}
+{showMedicalOrderForm && selectedAppointment && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+    <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl p-6 relative animate-fadeIn">
+      <h2 className="text-xl font-semibold mb-4 text-gray-800">Create Medical Order</h2>
+
+      <MedicalOrderForm
+        selectedAppointment={selectedAppointment}
+        setShowMedicalOrderForm={setShowMedicalOrderForm}
+      />
+    </div>
+  </div>
+)}
+
+
+
+
               {selectedAppointment && selectedAppointment.status.toLowerCase() !== 'cancelled' && 
                 selectedAppointment.status.toLowerCase() !== 'completed' && (
                 <button
