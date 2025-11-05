@@ -3,7 +3,7 @@ import { billingService } from '../../services/api.js';
 import { toast } from 'react-toastify';
 import { CreditCardIcon, CheckCircleIcon, ClockIcon, DocumentTextIcon, BeakerIcon, BuildingStorefrontIcon } from '@heroicons/react/24/outline';
 
-// Helper to get a user-friendly description and icon for the bill type
+
 const getItemDetails = (type) => {
   switch (type) {
     case 'doc':
@@ -36,7 +36,6 @@ const Billing = () => {
   const [processingPayment, setProcessingPayment] = useState({});
   const [patientId, setPatientId] = useState(null);
 
-  // Fetch bills function
   const fetchBills = useCallback(async (pId) => {
     if (!pId) {
       setError('Could not find patient ID.');
@@ -64,7 +63,7 @@ const Billing = () => {
     }
   }, []);
 
-  // Effect to get patient ID and fetch initial data
+  
   useEffect(() => {
     try {
       const userStr = localStorage.getItem('user');
@@ -87,37 +86,65 @@ const Billing = () => {
     }
   }, [fetchBills]);
 
-  // Handle mock payment
+ 
   const handlePay = async (bill) => {
-    const billId = bill.billId;
-    setProcessingPayment(prev => ({ ...prev, [billId]: true }));
-    
-    // 1. Mock processing delay
-    await new Promise(resolve => setTimeout(resolve, 2500));
-    
-    try {
-      // 2. Call API to update status
-      await billingService.updatePaymentStatus(billId, 'paid');
-      
-      // 3. Show success toast
-      toast.success(`Payment for Bill #${billId} (₹${bill.price.toFixed(2)}) was successful!`);
-      
-      // 4. Refresh data from server (as requested)
-      // We will refetch instead of full page reload for a smoother UX
-      if (patientId) {
-        fetchBills(patientId);
-      }
+  const billId = bill.billId;
+  setProcessingPayment((prev) => ({ ...prev, [billId]: true }));
 
-    } catch (err) {
-      console.error('Error processing payment:', err);
-      toast.error('Payment failed. Please try again.');
-    } finally {
-      // 5. Stop processing indicator
-      setProcessingPayment(prev => ({ ...prev, [billId]: false }));
-    }
-  };
+  try {
+    
+    const options = {
+      key: "rzp_test_RcBF3nYyV8tqx6", 
+      amount: 100, 
+      currency: "INR",
+      name: "Hospital Billing",
+      description: `Payment for Bill #${billId}`,
+      // image: ",
+      handler: async function (response) {
+        
+        toast.success(`Payment successful for Bill #${billId}`);
+        console.log("Razorpay Payment ID:", response.razorpay_payment_id);
 
-  // Calculate total pending amount
+        try {
+          
+          await billingService.updatePaymentStatus(billId, "paid");
+          fetchBills(patientId);
+        } catch (err) {
+          console.error("Backend update failed:", err);
+          toast.error("Failed to update payment status on server");
+        }
+      },
+      prefill: {
+        name: "Patient",
+        email: "patient@example.com",
+        contact: "8356789892",
+      },
+      notes: {
+        bill_id: billId,
+        patient_id: patientId,
+      },
+      theme: {
+        color: "#5b21b6", 
+      },
+    };
+
+    const razorpayInstance = new window.Razorpay(options);
+    razorpayInstance.open();
+
+    razorpayInstance.on("payment.failed", function (response) {
+      console.error("Payment failed:", response.error);
+      toast.error("Payment failed or cancelled");
+    });
+  } catch (err) {
+    console.error("Error initializing Razorpay:", err);
+    toast.error("Could not start payment");
+  } finally {
+    setProcessingPayment((prev) => ({ ...prev, [billId]: false }));
+  }
+};
+
+
+  
   const totalPending = bills
     .filter(bill => bill.paymentStatus === 'pending')
     .reduce((sum, bill) => sum + bill.price, 0);

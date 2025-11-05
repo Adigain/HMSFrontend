@@ -5,7 +5,6 @@ import {
   CheckIcon,
   XMarkIcon,
   BuildingOfficeIcon,
-  BeakerIcon,
   PhoneIcon,
   EnvelopeIcon,
   BriefcaseIcon
@@ -15,20 +14,19 @@ import { toast } from 'react-toastify';
 
 const Profile = () => {
   const [profile, setProfile] = useState({
-    id: 1,
+    id: null,
     name: "",
-    pharmacy: "",
+    pharmacy: "MediLink Central Pharmacy", // UI/Mock Field
     email: "",
     phone: "",
-    employeeId: "",
+    employeeId: "", // UI/Mock Field
     age: "",
     gender: "",
-    address: "",
-    certifications: [],
+    address: "Pharmacy Block, MediLink Hospital, Varanasi", // UI/Mock Field
+    experience: "", // API Field
     profileImage: "https://images.unsplash.com/photo-1588776814546-312cb19f57c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-    status: "Active",
-    department: "",
-    password: ""
+    department: "Pharmacy", // UI/Mock Field
+    password: "" 
   });
   
   const [isEditing, setIsEditing] = useState(false);
@@ -36,55 +34,39 @@ const Profile = () => {
   const [previewImage, setPreviewImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   
-  // Fetch pharmacist profile
+  // Fetch pharmacist profile on mount
   useEffect(() => {
     const fetchPharmacistProfile = async () => {
       setIsLoading(true);
       try {
         const user = JSON.parse(localStorage.getItem('user'));
-        const pharmacistId = user?.id;
+        const pharmacistId = user?.id; // Assuming user.id holds phId
         
         if (!pharmacistId) {
           throw new Error('Pharmacist ID not found. Please log in again.');
         }
         
-        // Mock fallback data (replace later with API call)
-        const mockData = {
-          id: pharmacistId,
-          name: user.name || 'John Doe',
-          pharmacy: 'MediLink Central Pharmacy',
-          email: user.email || 'john.doe@pharmacy.com',
-          phone: '9876543210',
-          employeeId: 'PH' + pharmacistId,
-          age: 30,
-          gender: 'Male',
-          address: 'Pharmacy Block, MediLink Hospital, Varanasi',
-          certifications: ['Pharmaceutical Management', 'Drug Safety & Regulations'],
-          profileImage: "https://images.unsplash.com/photo-1588776814546-312cb19f57c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-          status: 'Active',
-          department: 'Pharmacy',
-          password: 'mockpassword'
-        };
-        
-        // const response = await pharmacistService.getPharmacistById(pharmacistId);
-        // const pharmacistData = response.data;
-        const pharmacistData = mockData;
-        
+        const response = await pharmacistService.getPharmacistById(pharmacistId);
+        const pharmacistData = response.data;
+
+        // Map API fields (phName, emailId, mobileNo, phId, age, gender, experience)
         const formattedProfile = {
-          id: pharmacistData.id,
-          name: pharmacistData.name,
-          pharmacy: pharmacistData.pharmacy,
-          email: pharmacistData.email,
-          phone: pharmacistData.phone,
-          employeeId: pharmacistData.employeeId,
-          age: pharmacistData.age,
-          gender: pharmacistData.gender,
-          address: pharmacistData.address,
-          certifications: pharmacistData.certifications,
-          profileImage: pharmacistData.profileImage,
-          status: pharmacistData.status,
-          department: pharmacistData.department,
-          password: pharmacistData.password
+          // Core API fields mapped to component state
+          id: pharmacistData.phId || pharmacistData.id,
+          name: pharmacistData.phName || pharmacistData.name || '',
+          email: pharmacistData.emailId || pharmacistData.email || '',
+          phone: pharmacistData.mobileNo || pharmacistData.phone || '',
+          age: pharmacistData.age || '',
+          gender: pharmacistData.gender || '',
+          experience: pharmacistData.experience || '', 
+          password: pharmacistData.password || '',
+          
+          // UI/Mock fields (assuming these come from another source or are static)
+          pharmacy: pharmacistData.pharmacy || 'MediLink Central Pharmacy',
+          department: pharmacistData.department || 'Pharmacy',
+          employeeId: pharmacistData.employeeId || `PH${pharmacistData.phId || pharmacistData.id}`,
+          address: pharmacistData.address || 'Pharmacy Block, MediLink Hospital, Varanasi',
+          profileImage: pharmacistData.profileImage || "https://images.unsplash.com/photo-1588776814546-312cb19f57c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
         };
         
         setProfile(formattedProfile);
@@ -92,9 +74,12 @@ const Profile = () => {
         
       } catch (err) {
         console.error('Error fetching pharmacist profile:', err);
-        toast.error('Failed to load Pharmacist profile. Showing mock data.');
+        // Show error and fall back to minimal data structure
+        toast.error('Failed to load Pharmacist profile from API. Showing default data.');
+        setError(true);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
     
     fetchPharmacistProfile();
@@ -109,21 +94,30 @@ const Profile = () => {
   };
   
   const handleSave = async () => {
+    if (!editedProfile.id) {
+        toast.error('Cannot save profile: ID is missing.');
+        return;
+    }
+
     try {
       const loadingToastId = toast.loading('Saving profile changes...');
       
-      const pharmacistId = profile.id;
-      
+      // Map component state fields back to API required fields for the payload
       const updatedProfileData = {
-        ...editedProfile,
-        id: pharmacistId,
-        password: profile.password
+        phId: editedProfile.id, // Must be sent back
+        phName: editedProfile.name, // API expects phName
+        emailId: editedProfile.email, // API expects emailId
+        mobileNo: editedProfile.phone, // API expects mobileNo
+        age: parseInt(editedProfile.age) || 0, // Ensure integer format
+        gender: editedProfile.gender,
+        experience: parseInt(editedProfile.experience) || 0, // Ensure integer format
+        password: profile.password || 'placeholder' // Include password to prevent backend validation error
       };
       
-      // Simulate API call
-      // await pharmacistService.updatePharmacist(pharmacistId, updatedProfileData);
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Call the update API
+      await pharmacistService.updatePharmacist(editedProfile.id, updatedProfileData);
       
+      // Update local state on success
       const updatedProfile = {...editedProfile};
       if (previewImage) {
         updatedProfile.profileImage = previewImage;
@@ -133,14 +127,14 @@ const Profile = () => {
       setPreviewImage(null);
       
       toast.update(loadingToastId, { 
-        render: 'Profile updated successfully! (Mock Save)', 
+        render: 'Profile updated successfully!', 
         type: 'success', 
         isLoading: false,
         autoClose: 3000
       });
     } catch (err) {
       console.error('Error updating pharmacist profile:', err);
-      toast.error('Failed to update profile. Please try again.');
+      toast.error(err.response?.data?.message || 'Failed to update profile. Please try again.');
     }
   };
   
@@ -222,8 +216,13 @@ const Profile = () => {
                   Employee ID: {profile.employeeId}
                 </span>
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                  Status: {profile.status}
+                  Status: Active
                 </span>
+                {profile.experience && (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                    Experience: {profile.experience} years
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -262,6 +261,10 @@ const Profile = () => {
                 <input type="number" id="age" name="age" value={editedProfile.age} onChange={handleChange} className="form-input" placeholder="Enter your age" />
               </div>
               <div className="group">
+                <label htmlFor="experience" className="block text-sm font-medium text-gray-700 mb-1">Experience (years)</label>
+                <input type="number" id="experience" name="experience" value={editedProfile.experience} onChange={handleChange} className="form-input" placeholder="Years of experience" />
+              </div>
+              <div className="group">
                 <label htmlFor="gender" className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
                 <select id="gender" name="gender" value={editedProfile.gender} onChange={handleChange} className="form-input appearance-none">
                   <option value="">Select Gender</option>
@@ -270,8 +273,7 @@ const Profile = () => {
                   <option value="Other">Other</option>
                 </select>
               </div>
-              
-              <div className="col-span-2">
+              <div className="group">
                 <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">Address</label>
                 <textarea id="address" name="address" rows={3} value={editedProfile.address} onChange={handleChange} className="form-input" placeholder="Enter your address"></textarea>
               </div>
@@ -294,23 +296,9 @@ const Profile = () => {
                   <p><span className="font-medium">Employee ID:</span> {profile.employeeId}</p>
                   <p><span className="font-medium">Age:</span> {profile.age}</p>
                   <p><span className="font-medium">Gender:</span> {profile.gender}</p>
-                  <p><span className="font-medium">Department:</span> {profile.department}</p>
+                  <p><span className="font-medium">Experience:</span> {profile.experience} years</p>
                 </div>
               </div>
-
-              {profile.certifications && profile.certifications.length > 0 && (
-                <div className="mb-8">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center"><CheckIcon className="h-5 w-5 mr-2 text-gray-500" /> Certifications</h3>
-                  <ul className="space-y-2">
-                    {profile.certifications.map((certification, index) => (
-                      <li key={index} className="flex items-center text-gray-600">
-                        <CheckIcon className="h-4 w-4 text-teal-500 mr-2" />
-                        {certification}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
           )}
         </div>

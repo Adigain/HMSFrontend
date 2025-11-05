@@ -706,7 +706,7 @@ const Appointments = () => {
                         </span>
                         
                         {/* Show cancel button only for upcoming and non-cancelled appointments */}
-                        {isUpcoming(appointment.appointment_date, appointment.appointment_time) && 
+                        {/* {isUpcoming(appointment.appointment_date, appointment.appointment_time) && 
                          appointment.status !== 'CANCELLED' && 
                          appointment.status !== 'COMPLETED' && (
                           <button
@@ -749,7 +749,7 @@ const Appointments = () => {
                                 </>
                               )}
                           </button>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   </div>
