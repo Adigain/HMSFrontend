@@ -61,7 +61,6 @@ import AdminAppointments from './components/admin/Appointments';
 // Import LabTech components
 import LabTechDashboard from './components/labtech/Dashboard';
 import LabTechLabTests from './components/labtech/LabTests.jsx';
-import LabTechLabReports from './components/labtech/LabReports';
 import LabTechProfile from './components/labtech/Profile';
 
 // Import Pharmacist components (filenames you provided)
@@ -125,7 +124,6 @@ const patientSidebarItems = [
 const labTechSidebarItems = [
   { name: 'Dashboard', href: '/labtech/dashboard', icon: HomeIcon },
   { name: 'Lab Tests', href: '/labtech/lab-tests', icon: BeakerIcon }, // Link to Lab Tests page
-  { name: 'Lab Reports', href: '/labtech/lab-reports', icon: ClipboardDocumentListIcon }, // Link to Lab Reports page
   { 
     name: 'My Profile', 
     href: '/labtech/profile', 
@@ -209,8 +207,7 @@ function AppRoutes() {
       <Route path="/labtech" element={<ProtectedRoute requiredRole="LABTECH" />}> // Requires role "LABTECH" for access
         <Route element={<DashboardLayout sidebarItems={labTechSidebarItems} />}> // Uses the LabTech sidebar
           <Route path="dashboard" element={<LabTechDashboard />} /> // Main dashboard view
-          <Route path="lab-tests" element={<LabTechLabTests />} /> // Component for managing tests
-          <Route path="lab-reports" element={<LabTechLabReports />} /> // Component for managing reports
+          <Route path="lab-tests" element={<LabTechLabTests />} /> // Component for managing tests          
           <Route path="profile" element={<LabTechProfile />} /> // Component for profile management
         </Route>
       </Route>
