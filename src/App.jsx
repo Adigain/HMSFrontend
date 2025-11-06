@@ -44,6 +44,7 @@ import ChangePassword from './components/patient/ChangePassword';
 import PatientRegistration from './components/PatientRegistration';
 import StaffRegistration from './components/StaffRegistration';
 import Billing from './components/patient/Billing.jsx';
+import PatientLabAppointments from './components/patient/PatientLabAppointments.jsx';
 
 // Import doctor components
 import DoctorDashboard from './components/doctor/Dashboard';
@@ -68,6 +69,7 @@ import PharmacistDashboard from './components/pharmacist/Dashboard';
 import MedicineInventory from './components/pharmacist/medicine_inventry';
 import MedicineOrders from './components/pharmacist/medicine_order';
 import PharmacistProfile from './components/pharmacist/profile';
+
 
 
 const adminSidebarItems = [
@@ -100,6 +102,12 @@ const patientSidebarItems = [
   },
   { name: 'My Appointments', href: '/patient/appointments', icon: CalendarIcon },
   { name: 'Prescriptions', href: '/patient/prescriptions', icon: ClipboardDocumentListIcon },
+  { 
+    name: 'Lab Appointments', 
+    href: '/patient/lab-appointments', 
+    icon: BeakerIcon, 
+    highlight: false 
+  },
   { 
     name: 'Billing', 
     href: '/patient/billing', 
@@ -197,6 +205,7 @@ function AppRoutes() {
           <Route path="book-appointment/:patientId" element={<BookAppointment />} />
           <Route path="appointments" element={<Appointments />} />
           <Route path="prescriptions" element={<Prescriptions />} />
+          <Route path="lab-appointments" element={<PatientLabAppointments />} />
           <Route path="billing" element={<Billing />} />
           <Route path="profile" element={<UpdateProfile />} />
           <Route path="change-password" element={<ChangePassword />} />

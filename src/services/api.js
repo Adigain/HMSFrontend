@@ -310,12 +310,12 @@ export const labtechService = {
   searchAppointmentsByPatientName: (name) => api.get(`/labappointments/search`, { params: { name } }),
 
 
-  getAllLabTests: () => api.get('/labappointments/labtests'),
-  getLabTestById: (id) => api.get(`/labappointments/labtests/${id}`),
-  addLabTest: (data) => api.post('/labappointments/labtests', data),
-  updateLabTest: (id, data) => api.put(`/labappointments/labtests/${id}`, data),
-  deleteLabTest: (id) => api.delete(`/labappointments/labtests/${id}`),
-  searchLabTestsByName: (name) => api.get(`/labappointments/labtests/search`, { params: { name } }),
+  getAllLabTests: () => api.get('/labtests'),
+  getLabTestById: (id) => api.get(`/labtests/${id}`),
+  addLabTest: (data) => api.post('/labtests', data),
+  updateLabTest: (id, data) => api.put(`/labtests/${id}`, data),
+  deleteLabTest: (id) => api.delete(`/labtests/${id}`),
+  searchLabTestsByName: (name) => api.get(`/labtests/search`, { params: { name } }),
 };
 
 
