@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -13,6 +12,12 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [labTech, setLabTech] = useState(null);
   const [appointments, setAppointments] = useState([]);
+
+  // --- New State for Remarks Modal ---
+  const [showRemarksModal, setShowRemarksModal] = useState(false);
+  const [currentAppointment, setCurrentAppointment] = useState(null);
+  const [remarks, setRemarks] = useState("");
+  // -------------------------------------
 
   useEffect(() => {
     fetchData();
@@ -49,15 +54,40 @@ const Dashboard = () => {
     }
   };
 
-  const updateLabStatus = async (appointment, newStatus) => {
+  const openRemarksModal = (appointment) => {
+    setCurrentAppointment(appointment);
+    setRemarks(""); // Clear any previous remarks
+    setShowRemarksModal(true);
+  };
+
+  const handleSaveRemarks = () => {
+    if (!currentAppointment) return;
+
+    updateLabStatus(currentAppointment, "Completed", remarks);
+
+    setShowRemarksModal(false);
+    setRemarks("");
+    setCurrentAppointment(null);
+  };
+  const updateLabStatus = async (appointment, newStatus, customRemarks) => {
     try {
+      let remarksToUpdate;
+
+      if (newStatus === "Completed") {
+        remarksToUpdate =
+          customRemarks !== undefined
+            ? customRemarks
+            : "Lab test completed successfully.";
+      } else if (newStatus === "Cancelled") {
+        remarksToUpdate = "Appointment cancelled by technician.";
+      } else {
+        remarksToUpdate = appointment.remarks || ""; // Keep existing remarks for other statuses
+      }
+
       const updatedAppointment = {
         ...appointment,
         status: newStatus,
-        remarks:
-          newStatus === "Completed"
-            ? "Lab test completed successfully."
-            : "Appointment cancelled by technician.",
+        remarks: remarksToUpdate,
       };
 
       await axios.put(
@@ -66,7 +96,7 @@ const Dashboard = () => {
       );
 
       toast.success(`Appointment marked as ${newStatus}`);
-      fetchData();
+      fetchData(); 
     } catch (err) {
       console.error("❌ Failed to update lab status:", err);
       toast.error("Failed to update status.");
@@ -148,6 +178,7 @@ const Dashboard = () => {
         items={upcomingLabs}
         empty="No upcoming labs found."
         onAction={updateLabStatus}
+        onMarkCompleteClick={openRemarksModal} 
       />
 
       <Section
@@ -163,6 +194,45 @@ const Dashboard = () => {
         items={pastLabs}
         empty="No past labs found."
       />
+
+      {/* --- Remarks Modal --- */}
+      {showRemarksModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 m-4 transform transition-all duration-300 scale-100">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">Remarks</h2>
+            <p className="text-sm text-gray-600 mb-4">
+              Please add any remarks for completing lab test #
+              {currentAppointment?.appointmentId}.
+            </p>
+            <textarea
+              value={remarks}
+              onChange={(e) => setRemarks(e.target.value)}
+              rows="4"
+              className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+              placeholder="results normal..."
+            ></textarea>
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                onClick={() => {
+                  setShowRemarksModal(false);
+                  setRemarks("");
+                  setCurrentAppointment(null);
+                }}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-medium transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveRemarks}
+                className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-medium shadow-sm transition-all"
+              >
+                Save and Complete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* --------------------- */}
     </div>
   );
 };
@@ -182,7 +252,7 @@ const StatCard = ({ title, count, icon, color, borderColor }) => (
   </div>
 );
 
-const Section = ({ title, icon, items, empty, onAction }) => (
+const Section = ({ title, icon, items, empty, onAction, onMarkCompleteClick }) => (
   <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 mb-10">
     <div className="flex items-center mb-4 border-b border-gray-100 pb-2">
       {icon}
@@ -232,11 +302,11 @@ const Section = ({ title, icon, items, empty, onAction }) => (
                 {lab.status || "Pending"}
               </span>
             </p>
-
-            {onAction && (
+            
+            {onAction && onMarkCompleteClick && (
               <div className="flex gap-3">
                 <button
-                  onClick={() => onAction(lab, "Completed")}
+                  onClick={() => onMarkCompleteClick(lab)}
                   className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 text-sm shadow-sm transition-all"
                 >
                   ✅ Mark Complete
