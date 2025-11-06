@@ -1,3 +1,4 @@
+// ...existing code...
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
@@ -22,6 +23,9 @@ import {
   ChartBarIcon,
   BeakerIcon, // Added BeakerIcon for Lab Tests menu item
   LockClosedIcon,
+  ShoppingCartIcon,
+  ShoppingBagIcon,
+  CreditCardIcon,
 } from '@heroicons/react/24/outline';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -39,6 +43,8 @@ import UpdateProfile from './components/patient/UpdateProfile';
 import ChangePassword from './components/patient/ChangePassword';
 import PatientRegistration from './components/PatientRegistration';
 import StaffRegistration from './components/StaffRegistration';
+import Billing from './components/patient/Billing.jsx';
+import PatientLabAppointments from './components/patient/PatientLabAppointments.jsx';
 
 // Import doctor components
 import DoctorDashboard from './components/doctor/Dashboard';
@@ -56,8 +62,15 @@ import AdminAppointments from './components/admin/Appointments';
 // Import LabTech components
 import LabTechDashboard from './components/labtech/Dashboard';
 import LabTechLabTests from './components/labtech/LabTests.jsx';
-import LabTechLabReports from './components/labtech/LabReports';
 import LabTechProfile from './components/labtech/Profile';
+
+// Import Pharmacist components (filenames you provided)
+import PharmacistDashboard from './components/pharmacist/Dashboard';
+import MedicineInventory from './components/pharmacist/medicine_inventry';
+import MedicineOrders from './components/pharmacist/medicine_order';
+import PharmacistProfile from './components/pharmacist/profile';
+
+
 
 const adminSidebarItems = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon },
@@ -90,6 +103,18 @@ const patientSidebarItems = [
   { name: 'My Appointments', href: '/patient/appointments', icon: CalendarIcon },
   { name: 'Prescriptions', href: '/patient/prescriptions', icon: ClipboardDocumentListIcon },
   { 
+    name: 'Lab Appointments', 
+    href: '/patient/lab-appointments', 
+    icon: BeakerIcon, 
+    highlight: false 
+  },
+  { 
+    name: 'Billing', 
+    href: '/patient/billing', 
+    icon: CreditCardIcon, 
+    highlight: false
+  },
+  { 
     name: 'My Profile', 
     href: '/patient/profile', 
     icon: UserIcon,
@@ -107,7 +132,6 @@ const patientSidebarItems = [
 const labTechSidebarItems = [
   { name: 'Dashboard', href: '/labtech/dashboard', icon: HomeIcon },
   { name: 'Lab Tests', href: '/labtech/lab-tests', icon: BeakerIcon }, // Link to Lab Tests page
-  { name: 'Lab Reports', href: '/labtech/lab-reports', icon: ClipboardDocumentListIcon }, // Link to Lab Reports page
   { 
     name: 'My Profile', 
     href: '/labtech/profile', 
@@ -115,6 +139,20 @@ const labTechSidebarItems = [
     highlight: true
   },
 ];
+
+// Pharmacist Sidebar Menu Definition (matches your filenames/paths)
+const pharmacistSidebarItems = [
+  { name: 'Dashboard', href: '/pharmacist/dashboard', icon: HomeIcon },
+  { name: 'Medicine Inventory', href: '/pharmacist/medicine_inventry', icon: ShoppingBagIcon },
+  { name: 'Medicine Orders', href: '/pharmacist/medicine_order', icon: ShoppingCartIcon },
+  { 
+    name: 'My Profile', 
+    href: '/pharmacist/profile', 
+    icon: UserIcon,
+    highlight: true
+  },
+];
+
 function AppRoutes() {
   return (
     <Routes>
@@ -167,6 +205,8 @@ function AppRoutes() {
           <Route path="book-appointment/:patientId" element={<BookAppointment />} />
           <Route path="appointments" element={<Appointments />} />
           <Route path="prescriptions" element={<Prescriptions />} />
+          <Route path="lab-appointments" element={<PatientLabAppointments />} />
+          <Route path="billing" element={<Billing />} />
           <Route path="profile" element={<UpdateProfile />} />
           <Route path="change-password" element={<ChangePassword />} />
         </Route>
@@ -176,12 +216,20 @@ function AppRoutes() {
       <Route path="/labtech" element={<ProtectedRoute requiredRole="LABTECH" />}> // Requires role "LABTECH" for access
         <Route element={<DashboardLayout sidebarItems={labTechSidebarItems} />}> // Uses the LabTech sidebar
           <Route path="dashboard" element={<LabTechDashboard />} /> // Main dashboard view
-          <Route path="lab-tests" element={<LabTechLabTests />} /> // Component for managing tests
-          <Route path="lab-reports" element={<LabTechLabReports />} /> // Component for managing reports
+          <Route path="lab-tests" element={<LabTechLabTests />} /> // Component for managing tests          
           <Route path="profile" element={<LabTechProfile />} /> // Component for profile management
         </Route>
       </Route>
 
+      {/* Pharmacist Routes (mirrors LabTech, uses your filenames/paths) */}
+      <Route path="/pharmacist" element={<ProtectedRoute requiredRole="PHARMACIST" />}> // Requires role "PHARMACIST"
+        <Route element={<DashboardLayout sidebarItems={pharmacistSidebarItems} />}> // Uses the Pharmacist sidebar
+          <Route path="dashboard" element={<PharmacistDashboard />} />
+          <Route path="medicine_inventry" element={<MedicineInventory />} />
+          <Route path="medicine_order" element={<MedicineOrders />} />
+          <Route path="profile" element={<PharmacistProfile />} />
+        </Route>
+      </Route>
 
       {/* Remove direct dashboard access - must be authenticated */}
       {/* <Route path="/dashboard" element={<PatientDashboard />} /> */}
@@ -204,3 +252,4 @@ function App() {
 }
 
 export default App;
+// ...existing code...
